@@ -1,7 +1,11 @@
 package com.guillaumesoft.platformerc;
 
+import android.content.Context;
+import android.view.Display;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
+import android.view.WindowManager;
+
 import com.badlogic.androidgames.framework.Screen;
 import com.badlogic.androidgames.framework.impl.GLGame;
 import javax.microedition.khronos.egl.EGLConfig;
@@ -41,9 +45,10 @@ public class Platformer extends GLGame
                 // CREATE A STATIC CONTEXT FOR THE GAME
                 //ScreenManager.game = this;
 
-                /* WindowManager wm = (WindowManager) this.getSystemService(Context.WINDOW_SERVICE);
-                Display display = wm.getDefaultDisplay();
+                WindowManager wm = (WindowManager) this.getSystemService(Context.WINDOW_SERVICE);
+                ScreenManager.display = wm.getDefaultDisplay();
 
+                 /*
                 Point size = new Point();
                 display.getSize(size);*/
 

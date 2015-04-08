@@ -212,7 +212,6 @@ class Enemy extends DynamicGameObject
             case 1:
                 switch (state)
                 {
-
                     case MONSTER_STATE_IDLE:
                         keyFrame = Assets.monsterIdleB.getKeyFrame(elapsed, Animation.ANIMATION_LOOPING);
                         break;

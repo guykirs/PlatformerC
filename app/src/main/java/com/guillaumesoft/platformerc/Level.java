@@ -99,6 +99,8 @@ public class Level implements Disposable
     // CREATE A PLAYER INSTANCE
     public Player player;
 
+    private float cameraPosition;
+
 
     ////////////////////////////////////////////////////////////
     // CLASS FUNCTIONS
@@ -1177,7 +1179,6 @@ public class Level implements Disposable
                this.spritebatcher.drawSprite(1920 /2,  1080 /2, 1920, 1080, layerRegion[i]);
 
             this.spritebatcher.endBatch();
-
         }
 
         // DRAW THE TILES TO THE SCREEN
@@ -1349,5 +1350,28 @@ public class Level implements Disposable
     }
 
     public void dispose()  {   }
+
+    private void ScrollCamera(Display display)
+    {
+        final float ViewMargin = 0.35f;
+        Point size = new Point();
+        display.getSize(size);
+
+        // Calculate the edges of the screen.
+        float marginWidth = size.x * ViewMargin;
+        float marginLeft = cameraPosition + marginWidth;
+        float marginRight = cameraPosition + size.x - marginWidth;
+
+        // Calculate how far to scroll when the player is near the edges of the screen.
+        float cameraMovement = 0.0f;
+        if (player.position.x < marginLeft)
+            cameraMovement = player.position.x - marginLeft;
+        else if (player.position.x > marginRight)
+            cameraMovement = player.position.x - marginRight;
+
+        // Update the camera position, but prevent scrolling off the ends of the level.
+        float maxCameraPosition = Tile.TILE_WIDTH *  tiles.length - size.x;
+        cameraPosition = Clamp.clamp(cameraPosition + cameraMovement, 0.0f, maxCameraPosition);
+    }
 
 }
