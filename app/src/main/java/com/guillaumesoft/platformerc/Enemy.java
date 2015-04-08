@@ -80,8 +80,8 @@ class Enemy extends DynamicGameObject
 
         // Calculate tile position based on the side we are walking towards.
         float posX = position.x + bounds.width / 2 * side;
-        int tileX  = (int)Math.floor(posX / Tile.Width) - side;
-        int tileY  = (int)Math.floor(position.y / Tile.Height);
+        int tileX  = (int)Math.floor(posX / Tile.TILE_WIDTH) - side;
+        int tileY  = (int)Math.floor(position.y / Tile.TILE_HEIGHT);
 
         if(isAlive)
         {
@@ -155,7 +155,7 @@ class Enemy extends DynamicGameObject
                 }
 
                 // HAVE WE HI THE SIDE OF THE SCREEN
-                if((position.x < Tile.Width * 3) ||(position.x > 1920 - Tile.Width * 3))
+                if((position.x < Tile.TILE_WIDTH * 3) ||(position.x > 1920 - Tile.TILE_WIDTH * 3))
                 {
                     if(side == 1)
                         side = -1;
@@ -205,7 +205,7 @@ class Enemy extends DynamicGameObject
 
                 batcher.beginBatch(Assets.monsterA);
 
-                  batcher.drawSprite(position.x + Tile.Height, position.y, side * ENEMY_WIDTH, ENEMY_HEIGHT, keyFrame);
+                  batcher.drawSprite(position.x + Tile.TILE_HEIGHT, position.y, side * ENEMY_WIDTH, ENEMY_HEIGHT, keyFrame);
 
                 batcher.endBatch();
                 break;
@@ -229,7 +229,7 @@ class Enemy extends DynamicGameObject
                 }
                 batcher.beginBatch(Assets.monsterB);
 
-                   batcher.drawSprite(position.x + Tile.Height, position.y, side * ENEMY_WIDTH, ENEMY_HEIGHT, keyFrame);
+                   batcher.drawSprite(position.x + Tile.TILE_HEIGHT, position.y, side * ENEMY_WIDTH, ENEMY_HEIGHT, keyFrame);
 
                 batcher.endBatch();
                 break;
@@ -255,7 +255,7 @@ class Enemy extends DynamicGameObject
                 }
                 batcher.beginBatch(Assets.monsterC);
 
-                   batcher.drawSprite(position.x + Tile.Height, position.y, side * ENEMY_WIDTH, ENEMY_HEIGHT, keyFrame);
+                   batcher.drawSprite(position.x + Tile.TILE_HEIGHT, position.y, side * ENEMY_WIDTH, ENEMY_HEIGHT, keyFrame);
 
                 batcher.endBatch();
                 break;

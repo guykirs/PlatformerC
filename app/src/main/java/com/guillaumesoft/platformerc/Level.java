@@ -207,29 +207,29 @@ public class Level implements Disposable
     //////////////////////////////////////////////////////
     // TRANSLATE CHAR TO TO TILES THEN LOAD THE TILES
     //////////////////////////////////////////////////////
-    private Tile LoadTile(char tileType, int x, int y)
+    private Tile LoadTile(char tileType, float x, float y)
     {
         switch (tileType)
         {
             // Blank space
             case '.':
-                return new Tile(null, TileCollision.Passable);
+                return new Tile(x, y, null, TileCollision.Passable);
 
             case 'A':
                 // LOAD ALL THE ENEMY
-                return LoadEnemiesTile(x * Tile.Width, y * Tile.Height + 30, 0);
+                return LoadEnemiesTile(x * Tile.TILE_WIDTH, y * Tile.TILE_HEIGHT + 30, 0);
 
             case 'B':
                 // LOAD ALL THE ENEMY
-                return LoadEnemiesTile(x * Tile.Width, y * Tile.Height + 30, 1);
+                return LoadEnemiesTile(x * Tile.TILE_WIDTH, y * Tile.TILE_HEIGHT + 30, 1);
 
             case 'C':
                 // LOAD ALL THE ENEMY
-                return LoadEnemiesTile(x * Tile.Width, y * Tile.Height + 30, 2);
+                return LoadEnemiesTile(x * Tile.TILE_WIDTH, y * Tile.TILE_HEIGHT + 30, 2);
 
             case 'G':
                 // LOAD ALL THE GEMS
-                return LoadGemTile(x * Tile.Width, y * Tile.Height);
+                return LoadGemTile(x * Tile.TILE_WIDTH, y * Tile.TILE_HEIGHT);
 
             case '#':
                 TextureRegion block = Assets.BlockARegion;
@@ -257,64 +257,64 @@ public class Level implements Disposable
                         block = Assets.BlockGRegion;
                         break;
                 }
-                return LoadTile(block, TileCollision.Impassable);
+                return LoadTile(x, y, block, TileCollision.Impassable);
 
             case 'X':
-                return LoadExitTile(x * Tile.Width, y * Tile.Height);
+                return LoadExitTile(x * Tile.TILE_WIDTH, y * Tile.TILE_HEIGHT);
 
             case '1':
-                return LoadStartTile(x * Tile.Width, y * Tile.Height);
+                return LoadStartTile(x * Tile.TILE_WIDTH, y * Tile.TILE_HEIGHT);
 
             //Ladder
             case 'H':
-                return LoadTile(Assets.ladder, TileCollision.Ladder);
+                return LoadTile(x, y, Assets.ladder, TileCollision.Ladder);
 
             case 'P':
-                return LoadTile(Assets.BlockARegion, TileCollision.Checkpoint);
+                return LoadTile(x, y, Assets.BlockARegion, TileCollision.Checkpoint);
 
             case 'E':
                // LOAD ALL THE AXE
-               return LoadAxeTile(x * Tile.Width, y * Tile.Height);
+               return LoadAxeTile(x * Tile.TILE_WIDTH, y * Tile.TILE_HEIGHT);
 
             case 'F':
                 // LOAD ALL THE BOWL
-                return LoadBowlTile(x * Tile.Width, y * Tile.Height);
+                return LoadBowlTile(x * Tile.TILE_WIDTH, y * Tile.TILE_HEIGHT);
 
             case 'I':
                 // LOAD ALL THE BULLSKULL
-                return LoadBullskullTile(x * Tile.Width, y * Tile.Height);
+                return LoadBullskullTile(x * Tile.TILE_WIDTH, y * Tile.TILE_HEIGHT);
 
             case 'O':
                 // LOAD ALL THE DRAGON
-                return LoadDragonTile(x * Tile.Width, y * Tile.Height);
+                return LoadDragonTile(x * Tile.TILE_WIDTH, y * Tile.TILE_HEIGHT);
 
             case 'J':
                 // LOAD ALL THE FOOD
-                return LoadFoodTile(x * Tile.Width, y * Tile.Height);
+                return LoadFoodTile(x * Tile.TILE_WIDTH, y * Tile.TILE_HEIGHT);
 
             case 'K':
                 // LOAD ALL THE SKULL
-                return LoadSkullTile(x * Tile.Width, y * Tile.Height);
+                return LoadSkullTile(x * Tile.TILE_WIDTH, y * Tile.TILE_HEIGHT);
 
             case 'L':
                 // LOAD ALL THE SPEAR
-                return LoadSpearTile(x * Tile.Width, y * Tile.Height);
+                return LoadSpearTile(x * Tile.TILE_WIDTH, y * Tile.TILE_HEIGHT);
 
             case 'N':
                 // LOAD ALL THE STARS
-                return LoadStarsTile(x * Tile.Width, y * Tile.Height);
+                return LoadStarsTile(x * Tile.TILE_WIDTH, y * Tile.TILE_HEIGHT);
 
             case 'Q':
                 // LOAD ALL THE STARS
-                return LoadArmourTile(x * Tile.Width, y * Tile.Height);
+                return LoadArmourTile(x * Tile.TILE_WIDTH, y * Tile.TILE_HEIGHT);
 
             case 'R':
                 // LOAD ALL THE STARS
-                return LoadBarrelTile(x * Tile.Width, y * Tile.Height);
+                return LoadBarrelTile(x * Tile.TILE_WIDTH, y * Tile.TILE_HEIGHT);
 
             case 'T':
                 // LOAD THE FIRE
-               return LoadFireTile(x * Tile.Width, y * Tile.Height);
+               return LoadFireTile(x * Tile.TILE_WIDTH, y * Tile.TILE_HEIGHT);
 
             default:
                 throw new UnsupportedOperationException("Unsupported tile type character");
@@ -322,25 +322,25 @@ public class Level implements Disposable
     }
 
 
-    private Tile LoadTile(TextureRegion region, TileCollision collision)
+    private Tile LoadTile(float x, float y, TextureRegion region, TileCollision collision)
     {
-        return new Tile(region, collision);
+        return new Tile(x, y, region, collision);
     }
 
     /// <summary>
     /// Remembers the location of the level's exit.
     /// </summary>
-    private Tile LoadExitTile(int x, int y)
+    private Tile LoadExitTile(float x, float y)
     {
         exitbounds = new Rectangle(x , y, 0.6f, 0.6f);
 
-        return LoadTile(Assets.ExitRegion, TileCollision.Passable );
+        return LoadTile(x, y, Assets.ExitRegion, TileCollision.Passable );
     }
 
     /// <summary>
     /// Instantiates a player, puts him in the level, and remembers where to put him when he is resurrected.
     /// </summary>
-    private Tile LoadStartTile(int x, int y)
+    private Tile LoadStartTile(float x, float y)
     {
         if (player != null)
             throw new IllegalArgumentException("A level may only have one starting point.");
@@ -349,150 +349,150 @@ public class Level implements Disposable
         player = new Player(this, new Vector2(x, y));
 
         // RETURN TILE VALUE
-        return new Tile(null, TileCollision.Passable );
+        return new Tile(x, y, null, TileCollision.Passable );
     }
 
     /// <summary>
     /// Instantiates an enemy A and puts him in the level.
     /// </summary>
-    private Tile LoadEnemiesTile(int x, int y, int iType)
+    private Tile LoadEnemiesTile(float x, float y, int iType)
     {
         Enemy ENEMY = new Enemy(this, new Vector2(x, y), iType);
         this.enamies.add(ENEMY);
 
-        return new Tile(null, TileCollision.Passable);
+        return new Tile(x, y, null, TileCollision.Passable);
     }
 
     /// <summary>
     /// Instantiates a gem and put it in the level.
     /// </summary>
-    private Tile LoadFireTile(int x, int y)
+    private Tile LoadFireTile(float x, float y)
     {
         Fire FIRE = new Fire(x, y);
         this.fire.add(FIRE);
 
-        return new Tile(null, TileCollision.Passable);
+        return new Tile(x, y, null, TileCollision.Passable);
     }
 
     /// <summary>
     /// Instantiates a gem and put it in the level.
     /// </summary>
-    private Tile LoadGemTile(int x, int y)
+    private Tile LoadGemTile(float x, float y)
     {
         Gem GEM = new Gem(x, y);
         this.gems.add(GEM);
 
-        return new Tile(null, TileCollision.Passable);
+        return new Tile(x, y, null, TileCollision.Passable);
     }
 
     /// <summary>
     /// Instantiates a armour and put it in the level.
     /// </summary>
-    private Tile LoadArmourTile(int x, int y)
+    private Tile LoadArmourTile(float x, float y)
     {
         Armour ARMOUR = new Armour(x, y);
         this.armour.add(ARMOUR);
 
-        return new Tile(null, TileCollision.Passable);
+        return new Tile(x, y, null, TileCollision.Passable);
     }
 
     /// <summary>
     /// Instantiates a axe and put it in the level.
     /// </summary>
-    private Tile LoadAxeTile(int x, int y)
+    private Tile LoadAxeTile(float x, float y)
     {
         Axe AXE = new Axe(x, y);
         this.axe.add(AXE);
 
-        return new Tile(null, TileCollision.Passable);
+        return new Tile(x, y, null, TileCollision.Passable);
     }
 
     /// <summary>
     /// Instantiates a axe and put it in the level.
     /// </summary>
-    private Tile LoadBarrelTile(int x, int y)
+    private Tile LoadBarrelTile(float x, float y)
     {
         Barrel BARREL = new Barrel(x, y);
         this.barrel.add(BARREL);
 
-        return new Tile(null, TileCollision.Passable);
+        return new Tile(x, y, null, TileCollision.Passable);
     }
 
     /// <summary>
     /// Instantiates a bowl and put it in the level.
     /// </summary>
-    private Tile LoadBowlTile(int x, int y)
+    private Tile LoadBowlTile(float x, float y)
     {
         Bowl BOWL = new Bowl(x, y);
         this.bowl.add(BOWL);
 
-        return new Tile(null, TileCollision.Passable);
+        return new Tile(x, y, null, TileCollision.Passable);
     }
 
     /// <summary>
     /// Instantiates a bullskull and put it in the level.
     /// </summary>
-    private Tile LoadBullskullTile(int x, int y)
+    private Tile LoadBullskullTile(float x, float y)
     {
         BullSkull BULLSKULL = new BullSkull(x, y);
         this.bullskull.add(BULLSKULL);
 
-        return new Tile(null, TileCollision.Passable);
+        return new Tile(x, y, null, TileCollision.Passable);
     }
 
     /// <summary>
     /// Instantiates a dragon and put it in the level.
     /// </summary>
-    private Tile LoadDragonTile(int x, int y)
+    private Tile LoadDragonTile(float x, float y)
     {
         Dragon DRAGON = new Dragon(x, y);
         this.dragon.add(DRAGON);
 
-        return new Tile(null, TileCollision.Passable);
+        return new Tile(x, y, null, TileCollision.Passable);
     }
 
     /// <summary>
     /// Instantiates a food and put it in the level.
     /// </summary>
-    private Tile LoadFoodTile(int x, int y)
+    private Tile LoadFoodTile(float x, float y)
     {
         Food FOOD = new Food(x, y);
         this.food.add(FOOD);
 
-        return new Tile(null, TileCollision.Passable);
+        return new Tile(x, y, null, TileCollision.Passable);
     }
 
     /// <summary>
     /// Instantiates a food and put it in the level.
     /// </summary>
-    private Tile LoadSkullTile(int x, int y)
+    private Tile LoadSkullTile(float x, float y)
     {
         Skull SKULL = new Skull(x, y);
         this.skull.add(SKULL);
 
-        return new Tile(null, TileCollision.Passable);
+        return new Tile(x, y, null, TileCollision.Passable);
     }
 
     /// <summary>
     /// Instantiates a food and put it in the level.
     /// </summary>
-    private Tile LoadSpearTile(int x, int y)
+    private Tile LoadSpearTile(float x, float y)
     {
         Spear SPEAR = new Spear( x, y);
         this.spear.add(SPEAR);
 
-        return new Tile(null, TileCollision.Passable);
+        return new Tile(x, y, null, TileCollision.Passable);
     }
 
     /// <summary>
     /// Instantiates a food and put it in the level.
     /// </summary>
-    private Tile LoadStarsTile(int x, int y)
+    private Tile LoadStarsTile(float x, float y)
     {
         Stars STAR = new Stars( x, y);
         this.stars.add(STAR);
 
-        return new Tile(null, TileCollision.Passable);
+        return new Tile(x, y, null, TileCollision.Passable);
     }
 
 
@@ -1316,11 +1316,11 @@ public class Level implements Disposable
                 if (texture != null)
                 {
                     // Draw it in screen space.
-                    Vector2 position = new Vector2(x * Tile.Width, y * Tile.Height);// * tile.size();
+                    Vector2 position = new Vector2(x * Tile.TILE_WIDTH, y * Tile.TILE_HEIGHT);// * tile.size();
 
                     this.spritebatcher.beginBatch(Assets.tile);
 
-                       this.spritebatcher.drawSprite(position.x, position.y, Tile.Width, Tile.Height, texture);
+                       this.spritebatcher.drawSprite(position.x, position.y, Tile.TILE_WIDTH, Tile.TILE_HEIGHT, texture);
 
                     this.spritebatcher.endBatch();
                 }

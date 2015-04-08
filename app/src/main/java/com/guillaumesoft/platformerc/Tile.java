@@ -24,23 +24,24 @@ enum TileCollision
 /// <summary>
 /// Stores the appearance and collision behavior of a tile.
 /// </summary>
-class Tile
+class Tile extends DynamicGameObject
 {
     ////////////////////////////////////////
     // PUBLIC CLASS VARAIBLES
     public TextureRegion texture;
     public TileCollision Collision;
 
-    public static final int Width  = 42;
-    public static final int Height = 32;
-    public static final Vector2 Size = new Vector2(Width, Height);
-    public static final int Center = Width /2;
+    public static final float TILE_WIDTH  = 42;
+    public static final float TILE_HEIGHT = 32;
+    public static final Vector2 Size = new Vector2(TILE_WIDTH, TILE_HEIGHT);
+    public static final float Center = TILE_HEIGHT /2;
 
     /////////////////////////////////////////
     /// Constructs a new tile.
     /// </summary>
-    public Tile(TextureRegion texture, TileCollision collision)
+    public Tile(float x, float y, TextureRegion texture, TileCollision collision)
     {
+        super(x, y, TILE_WIDTH, TILE_HEIGHT);
 
         this.texture = texture;
         Collision    = collision;
