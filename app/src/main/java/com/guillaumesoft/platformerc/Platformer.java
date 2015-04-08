@@ -31,15 +31,15 @@ public class Platformer extends GLGame
         super.onSurfaceCreated(gl, config);
 
         //if (mOuyaFacade.isRunningOnOUYASupportedHardware(this))
-        //{
-        if (firstTimeCreate)
-        {
-            Settings.load(getFileIO());
-            Assets.load(this);
-            firstTimeCreate = false;
+       // {
+            if (firstTimeCreate)
+            {
+                Settings.load(getFileIO());
+                Assets.load(this);
+                firstTimeCreate = false;
 
-            // CREATE A STATIC CONTEXT FOR THE GAME
-            //ScreenManager.game = this;
+                // CREATE A STATIC CONTEXT FOR THE GAME
+                //ScreenManager.game = this;
 
                 /* WindowManager wm = (WindowManager) this.getSystemService(Context.WINDOW_SERVICE);
                 Display display = wm.getDefaultDisplay();
@@ -47,19 +47,20 @@ public class Platformer extends GLGame
                 Point size = new Point();
                 display.getSize(size);*/
 
-            //ScreenManager.WORLD_WIDTH = size.x;
-            //ScreenManager.WORLD_HEIGHT = size.y;
-            // }
-            // else
-            // {
-            //Assets.reload();
-            // }
+                //ScreenManager.WORLD_WIDTH = size.x;
+                //ScreenManager.WORLD_HEIGHT = size.y;
+                // }
+                // else
+                // {
+                //Assets.reload();
+                // }
 
-        }
-        else
-        {
+            }
+            else
+            {
 
-        }
+            }
+        //}
     }
 
     @Override
