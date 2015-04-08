@@ -1,38 +1,114 @@
 package com.guillaumesoft.platformerc;
 
-import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
+import com.badlogic.androidgames.framework.Screen;
+import com.badlogic.androidgames.framework.impl.GLGame;
+import javax.microedition.khronos.egl.EGLConfig;
+import javax.microedition.khronos.opengles.GL10;
+import tv.ouya.console.api.OuyaController;
+import tv.ouya.console.api.OuyaFacade;
+import tv.ouya.console.api.content.OuyaContent;
 
+public class Platformer extends GLGame
+{
+    /////////////////////////////////////////////////////////////////////////
+    // CLASS VARAIBLES
+    boolean firstTimeCreate = true;
+    boolean firstStart = true;
+    private OuyaFacade mOuyaFacade;
 
-public class Platformer extends ActionBarActivity {
-
+    // CLASS FUNCTION
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_platformer);
+    public Screen getStartScreen()
+    {
+        return new PressStartScreen(this);
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_platformer, menu);
-        return true;
+    public void onSurfaceCreated(GL10 gl, EGLConfig config)
+    {
+        super.onSurfaceCreated(gl, config);
+
+        //if (mOuyaFacade.isRunningOnOUYASupportedHardware(this))
+        //{
+        if (firstTimeCreate)
+        {
+            Settings.load(getFileIO());
+            Assets.load(this);
+            firstTimeCreate = false;
+
+            // CREATE A STATIC CONTEXT FOR THE GAME
+            //ScreenManager.game = this;
+
+                /* WindowManager wm = (WindowManager) this.getSystemService(Context.WINDOW_SERVICE);
+                Display display = wm.getDefaultDisplay();
+
+                Point size = new Point();
+                display.getSize(size);*/
+
+            //ScreenManager.WORLD_WIDTH = size.x;
+            //ScreenManager.WORLD_HEIGHT = size.y;
+            // }
+            // else
+            // {
+            //Assets.reload();
+            // }
+
+        }
+        else
+        {
+
+        }
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+    public boolean onKeyDown(int keyCode, KeyEvent event)
+    {
+        return OuyaController.onKeyDown(keyCode, event) || super.onKeyDown(keyCode, event);
+    }
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event)
+    {
+
+        if (keyCode == OuyaController.BUTTON_A)
+        {
+            finish();
         }
 
-        return super.onOptionsItemSelected(item);
+        if(firstStart)
+        {
+            // GAME STARTING INITIALIZE THE GAME COMPONENTS
+            if (keyCode == OuyaController.BUTTON_O)
+            {
+                GameScreen gamescreen = new GameScreen(this);
+                setScreen(gamescreen);
+            }
+
+            firstStart = false;
+        }
+
+        return OuyaController.onKeyUp(keyCode, event) || super.onKeyUp(keyCode, event);
     }
+
+    @Override
+    public boolean onGenericMotionEvent(MotionEvent event)
+    {
+        return OuyaController.onGenericMotionEvent(event) || super.onGenericMotionEvent(event);
+    }
+
+    @Override
+    public void onPause()
+    {
+        super.onPause();
+    }
+
+    @Override
+    protected void onDestroy()
+    {
+        super.onDestroy();
+    }
+
+
 }
