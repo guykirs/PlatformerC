@@ -1,9 +1,15 @@
 package com.guillaumesoft.platformerc;
 
+import android.graphics.Color;
+import android.graphics.Point;
+import android.view.Display;
+
 import com.badlogic.androidgames.framework.Game;
 import com.badlogic.androidgames.framework.gl.Camera2D;
 import com.badlogic.androidgames.framework.gl.SpriteBatcher;
 import com.badlogic.androidgames.framework.impl.GLScreen;
+import com.badlogic.androidgames.framework.math.Rectangle;
+
 import java.io.IOException;
 import javax.microedition.khronos.opengles.GL10;
 import tv.ouya.console.api.OuyaController;
@@ -138,11 +144,19 @@ public class GameScreen extends GLScreen
            level.Draw();//(deltaTime, batcher);
            drawHud();
 
-           batcher.beginBatch(Assets.items);
+          /* batcher.beginBatch(Assets.items);
 
               batcher.drawSprite(200, 1080 - 100, 228, 62, Assets.redHealthRegion);
               batcher.drawSprite(200, 1080 - 100, 228, 62, Assets.greenHealthRegion);
-              batcher.drawSprite(200, 1080 - 97,  228, 100, Assets.blackHealthRegion);
+              batcher.drawSprite(200, 1080 - 97, 228, 100, Assets.blackHealthRegion);
+
+           batcher.endBatch();*/
+
+           batcher.beginBatch(Assets.items);
+
+              batcher.drawSprite(200, 1080 - 100, 228, 25, Assets.redHealthRegion);
+             // batcher.drawSprite(200, 1080 - 100, 228, 62, Assets.greenHealthRegion);
+              batcher.drawSprite(200, 1080 - 97, 228, 100, Assets.blackHealthRegion);
 
            batcher.endBatch();
 

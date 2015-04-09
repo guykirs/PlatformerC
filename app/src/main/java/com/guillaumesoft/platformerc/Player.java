@@ -256,7 +256,7 @@ class Player extends DynamicGameObject
         isOnGround = false;
 
         // HAS THE PLAY REACHED THE SIDE OF THE SCREENS
-        if((position.x < Tile.TILE_WIDTH * 3)&&(side == 1))
+        /*if((position.x < Tile.TILE_WIDTH * 3)&&(side == 1))
         {
             velocity.x = 0;
             state = PLAYER_STATE_IDLE;
@@ -266,7 +266,7 @@ class Player extends DynamicGameObject
         {
             velocity.x = 0;
             state = PLAYER_STATE_IDLE;
-        }
+        }*/
 
         float posX = position.x + bounds.width / 2 * side;
         float posY = position.y - PLAYER_HEIGHT /2 + 12.0f;

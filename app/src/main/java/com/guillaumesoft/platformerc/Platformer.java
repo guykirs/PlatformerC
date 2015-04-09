@@ -1,6 +1,9 @@
 package com.guillaumesoft.platformerc;
 
 import android.content.Context;
+import android.os.Bundle;
+import android.os.PowerManager;
+import android.util.Log;
 import android.view.Display;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -8,6 +11,10 @@ import android.view.WindowManager;
 
 import com.badlogic.androidgames.framework.Screen;
 import com.badlogic.androidgames.framework.impl.GLGame;
+
+import java.io.InputStream;
+import java.security.PublicKey;
+
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 import tv.ouya.console.api.OuyaController;
@@ -21,6 +28,10 @@ public class Platformer extends GLGame
     boolean firstTimeCreate = true;
     boolean firstStart = true;
     private OuyaFacade mOuyaFacade;
+    String TAG;
+    public  static final String DEVELOPER_ID = "ab58c9eb-0774-4cfc-8309-0c24895fc58f";
+    private PublicKey mPublicKey = null;
+    private static final String LOG_TAG = "Platformer";
 
     // CLASS FUNCTION
     @Override
@@ -35,7 +46,7 @@ public class Platformer extends GLGame
         super.onSurfaceCreated(gl, config);
 
         //if (mOuyaFacade.isRunningOnOUYASupportedHardware(this))
-       // {
+        //{
             if (firstTimeCreate)
             {
                 Settings.load(getFileIO());
@@ -63,9 +74,15 @@ public class Platformer extends GLGame
             }
             else
             {
-
+                Assets.reload();
             }
         //}
+       /* else
+        {
+            Log.d(TAG, "not_running_on_ouya_supported_hardware");
+            // EXIT THE GAME IF ITNOT SUPPORTED HARDWARE
+            finish();
+        }*/
     }
 
     @Override
@@ -105,16 +122,19 @@ public class Platformer extends GLGame
     }
 
     @Override
-    public void onPause()
-    {
-        super.onPause();
-    }
-
-    @Override
     protected void onDestroy()
     {
         super.onDestroy();
     }
 
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+    }
 
+    public void onPause()
+    {
+        super.onPause();
+    }
 }

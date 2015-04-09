@@ -56,13 +56,13 @@ public class Level implements Disposable
     private SpriteBatcher spritebatcher;
 
     // The layer which entities are drawn on top of.
-    private final int EntityLayer = 2;
+    //private final int EntityLayer = 2;
 
     // VALUE TO HOLD CONTROLLER STATUS
     private boolean isConnected = true;
 
-    private Texture[]       textures;
-    private TextureRegion[] layerRegion;
+    //private Texture[]       textures;
+    //private TextureRegion[] layerRegion;
 
     ////////////////////////////////////////////////////
     // CLASS PUBLIC VARAIBLES
@@ -101,6 +101,8 @@ public class Level implements Disposable
 
     private float cameraPosition;
 
+    private Layer layers;
+
 
     ////////////////////////////////////////////////////////////
     // CLASS FUNCTIONS
@@ -132,26 +134,8 @@ public class Level implements Disposable
         // GET THE SPRITE BATCH FORM THE GAME SCREEN
         this.spritebatcher = sp;
 
-        textures = new Texture[3];
-        layerRegion  = new TextureRegion[3];
 
-        for (int i = 0; i <= 2; i++)
-        {
-            switch (i) {
-                case 0:
-                    textures[i] = Assets.layer00;
-                    layerRegion[i] = Assets.layer00Region;
-                    break;
-                case 1:
-                    textures[i] = Assets.layer10;
-                    layerRegion[i] = Assets.layer10Region;
-                    break;
-                case 2:
-                    textures[i] = Assets.layer20;
-                    layerRegion[i] = Assets.layer20Region;
-                    break;
-            }
-        }
+        layers = new Layer();
     }
 
     //////////////////////////////////////////////////////////
@@ -185,16 +169,14 @@ public class Level implements Disposable
         Collections.reverse(sInfo);
 
         // INITIALIZE THE TILE ARRAY
-        tiles = new Tile[48][33];
+        tiles = new Tile[96][33];
 
         for(int y=0; y < 33; y++)
         {
-
-            for (int x = 0; x < 48; x++)//29
+            for (int x = 0; x < 96; x++)//29
             {
                 // to load each tile.
                 char tileType = sInfo.get(y).charAt(x);
-
                 tiles[x][y] = LoadTile(tileType, x, y);
             }
         }
@@ -1085,7 +1067,7 @@ public class Level implements Disposable
         {
             // Animate the time being converted into points.
             int seconds = (int)Math.round(deltaTime * 100.0f);
-            seconds = Math.min(seconds, (int) Math.ceil(deltaTime));
+            seconds      = Math.min(seconds, (int) Math.ceil(deltaTime));
             TimeRemaing -= seconds;
             score += seconds * PointsPerSecond;
         }
@@ -1168,18 +1150,9 @@ public class Level implements Disposable
     {
         //WindowManager wm = (WindowManager) ScreenManager.getConext().getSystemService(ScreenManager.getConext().WINDOW_SERVICE);
         //Display display = wm.getDefaultDisplay();
-        //ScrollCamera(display);
+        ScrollCamera(ScreenManager.display);
 
-        ///////////////////////////////////////////////////////////////////
-        // DRAW THE BACKGROUND
-        for (int i = 0; i <= EntityLayer; ++i)
-        {
-            this.spritebatcher.beginBatch(textures[i]);
-
-               this.spritebatcher.drawSprite(1920 /2,  1080 /2, 1920, 1080, layerRegion[i]);
-
-            this.spritebatcher.endBatch();
-        }
+        layers.Draw(this.spritebatcher, cameraPosition);
 
         // DRAW THE TILES TO THE SCREEN
         DrawTiles();
@@ -1309,7 +1282,7 @@ public class Level implements Disposable
         // For each tile position
         for(int y=0; y < 33; y++)
         {
-            for (int x = 0; x < 48; x++)//29
+            for (int x = 0; x < 96; x++)//29
             {
                 // If there is a visible tile in that position
                 TextureRegion texture = tiles[x][y].texture;
@@ -1373,5 +1346,4 @@ public class Level implements Disposable
         float maxCameraPosition = Tile.TILE_WIDTH *  tiles.length - size.x;
         cameraPosition = Clamp.clamp(cameraPosition + cameraMovement, 0.0f, maxCameraPosition);
     }
-
 }
