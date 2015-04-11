@@ -5,8 +5,6 @@ import com.badlogic.androidgames.framework.gl.Animation;
 import com.badlogic.androidgames.framework.gl.SpriteBatcher;
 import com.badlogic.androidgames.framework.gl.TextureRegion;
 import com.badlogic.androidgames.framework.math.Clamp;
-import com.badlogic.androidgames.framework.math.OverlapTester;
-import com.badlogic.androidgames.framework.math.Rectangle;
 import com.badlogic.androidgames.framework.math.Vector2;
 import tv.ouya.console.api.OuyaController;
 
@@ -256,12 +254,13 @@ class Player extends DynamicGameObject
         isOnGround = false;
 
         // HAS THE PLAY REACHED THE SIDE OF THE SCREENS
-        /*if((position.x < Tile.TILE_WIDTH * 3)&&(side == 1))
+        if((position.x < Tile.TILE_WIDTH * 3)&&(side == 1))
         {
             velocity.x = 0;
             state = PLAYER_STATE_IDLE;
         }
 
+        /*
         if((position.x > 1920 - Tile.TILE_WIDTH * 3)&&(side == -1))
         {
             velocity.x = 0;
@@ -381,7 +380,6 @@ class Player extends DynamicGameObject
         wasJumping = isJumping;
 
         return velocityY;
-
     }
 
     /// <summary>

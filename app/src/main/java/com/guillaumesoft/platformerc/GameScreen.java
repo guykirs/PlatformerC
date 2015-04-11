@@ -1,15 +1,9 @@
 package com.guillaumesoft.platformerc;
 
-import android.graphics.Color;
-import android.graphics.Point;
-import android.view.Display;
-
 import com.badlogic.androidgames.framework.Game;
 import com.badlogic.androidgames.framework.gl.Camera2D;
 import com.badlogic.androidgames.framework.gl.SpriteBatcher;
 import com.badlogic.androidgames.framework.impl.GLScreen;
-import com.badlogic.androidgames.framework.math.Rectangle;
-
 import java.io.IOException;
 import javax.microedition.khronos.opengles.GL10;
 import tv.ouya.console.api.OuyaController;
@@ -36,7 +30,6 @@ public class GameScreen extends GLScreen
     // have a level file present. This allows us to not need to check for the file
     // or handle exceptions, both of which can add unnecessary time to level loading.
     //private final int numberOfLevels = 3;
-
     OuyaController gamePadState;
 
     // When the time remaining is less than the warning time, it blinks on the hud

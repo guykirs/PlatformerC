@@ -1,14 +1,10 @@
 package com.guillaumesoft.platformerc;
 
-import android.content.Context;
 import android.graphics.Point;
 import android.view.Display;
-import android.view.WindowManager;
 import com.badlogic.androidgames.framework.math.Clamp;
-
 import com.badlogic.androidgames.framework.Disposable;
 import com.badlogic.androidgames.framework.gl.SpriteBatcher;
-import com.badlogic.androidgames.framework.gl.Texture;
 import com.badlogic.androidgames.framework.gl.TextureRegion;
 import com.badlogic.androidgames.framework.math.OverlapTester;
 import com.badlogic.androidgames.framework.math.Rectangle;
@@ -23,7 +19,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 import tv.ouya.console.api.OuyaController;
-
 
 /**
  * Created by guillaume on 02/07/14.
@@ -56,13 +51,10 @@ public class Level implements Disposable
     private SpriteBatcher spritebatcher;
 
     // The layer which entities are drawn on top of.
-    //private final int EntityLayer = 2;
+    private final int EntityLayer = 2;
 
     // VALUE TO HOLD CONTROLLER STATUS
     private boolean isConnected = true;
-
-    //private Texture[]       textures;
-    //private TextureRegion[] layerRegion;
 
     ////////////////////////////////////////////////////
     // CLASS PUBLIC VARAIBLES
@@ -714,6 +706,29 @@ public class Level implements Disposable
             }
             i++;
         }
+
+        i = 0;
+
+        // pickup stars
+        Iterator<Armour> ARMOUR = armour.iterator();
+
+        while(ARMOUR.hasNext())
+        {
+            Armour obj = ARMOUR.next();
+
+            if (OverlapTester.overlapRectangles(player.bounds, obj.bounds))
+            {
+                if(Settings.soundEnabled)
+                    Assets.playSound(Assets.gemCollected);
+
+                armour.remove(i);
+
+                OnArmourCollected(obj, player);
+
+                break;
+            }
+            i++;
+        }
     }
 
     /////////////////////////////////////////////
@@ -1022,6 +1037,13 @@ public class Level implements Disposable
         score += star.PointValue;
 
         star.OnCollected(collectedBy);
+    }
+
+    private void OnArmourCollected(Armour armour, Player collectedBy)
+    {
+        score += armour.PointValue;
+
+        armour.OnCollected(collectedBy);
     }
 
 

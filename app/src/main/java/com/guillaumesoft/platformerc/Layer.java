@@ -49,6 +49,7 @@ public class Layer
         spriteBatch.beginBatch(texture[leftSegment % texturesregion.length]);
 
            spriteBatch.drawSprite(xy.x, 1080 / 2, 1920, 1080, texturesregion[leftSegment % texturesregion.length]);
+
            spriteBatch.drawSprite(xy.x + segmentWidth, 1080 / 2, 1920, 1080, texturesregion[rightSegment % texturesregion.length]);
 
         spriteBatch.endBatch();
