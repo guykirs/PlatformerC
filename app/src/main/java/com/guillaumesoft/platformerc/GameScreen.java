@@ -135,28 +135,27 @@ public class GameScreen extends GLScreen
         gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
         guiCam.setViewportAndMatrices();
 
-        gl.glEnable(GL10.GL_TEXTURE_2D);
-
         gl.glEnable(GL10.GL_BLEND);
         gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
 
-           // GAME DRAWING
-           level.Draw();//(deltaTime, batcher);
+           level.ScrollCamera(ScreenManager.display);
+
+           gl.glPushMatrix();
+
+              gl.glTranslatef(-level.cameraPosition, 0.0f, 0.0f);
+
+              // GAME DRAWING
+              level.Draw();
+
+           gl.glPopMatrix();
+
            drawHud();
-
-          /* batcher.beginBatch(Assets.items);
-
-              batcher.drawSprite(200, 1080 - 100, 228, 62, Assets.redHealthRegion);
-              batcher.drawSprite(200, 1080 - 100, 228, 62, Assets.greenHealthRegion);
-              batcher.drawSprite(200, 1080 - 97, 228, 100, Assets.blackHealthRegion);
-
-           batcher.endBatch();*/
 
            batcher.beginBatch(Assets.items);
 
               batcher.drawSprite(200, 1080 - 100, 228, 25, Assets.redHealthRegion);
-             // batcher.drawSprite(200, 1080 - 100, 228, 62, Assets.greenHealthRegion);
-              batcher.drawSprite(200, 1080 - 97, 228, 100, Assets.blackHealthRegion);
+              batcher.drawSprite(200, 1080 - 100, 228, 62, Assets.greenHealthRegion);
+              batcher.drawSprite(200, 1080 - 97,  228, 50, Assets.blackHealthRegion);
 
            batcher.endBatch();
 

@@ -10,71 +10,49 @@ import com.badlogic.androidgames.framework.math.Vector2;
 /// </summary>
 public class Layer
 {
-    private Texture[]       textures;
-    private TextureRegion[] layerRegion;
-    public float ScrollRate = 0.2f;
-    private final int EntityLayer = 2;
 
-    float[] myIntArray;
+    public  TextureRegion[] texturesregion;
+    public  Texture[] texture;
+    public float ScrollRate;
 
-    public Layer()
+
+    public Layer(TextureRegion region, Texture textureLayer, float scrollRate)
     {
         // Assumes each layer only has 3 segments.
-        textures = new Texture[3];
-        layerRegion  = new TextureRegion[3];
+        texturesregion = new TextureRegion[3];
+        texture = new Texture[3];
 
-        for (int i = 0; i <= 2; i++)
+        for (int i = 0; i < 3; ++i)
         {
-            switch (i) {
-                case 0:
-                    textures[i] = Assets.layer00;
-                    layerRegion[i] = Assets.layer00Region;
-                    break;
-                case 1:
-                    textures[i] = Assets.layer10;
-                    layerRegion[i] = Assets.layer10Region;
-                    break;
-                case 2:
-                    textures[i] = Assets.layer20;
-                    layerRegion[i] = Assets.layer20Region;
-                    break;
-            }
+            texturesregion[i] = region;
+            texture[i] = textureLayer;
         }
 
-        myIntArray = new float[3];
-        myIntArray = new float[]{0.2f, 0.5f, 0.8f};
-
+        ScrollRate = scrollRate;
     }
 
-    public void Draw(SpriteBatcher spriteBatch, float cameraPosition)//, float cameraPosition)
+    public void Draw(SpriteBatcher spriteBatch, float cameraPosition)
     {
         Vector2 xy = Vector2.Zero();
 
         // Assume each segment is the same width.
-        int segmentWidth = layerRegion[0].texture.width;
+        int segmentWidth = texturesregion[0].texture.width;
 
+        // Calculate which segments to draw and how much to offset them.
+        xy.x  = cameraPosition * ScrollRate;
 
+        int leftSegment = (int)Math.floor(xy.x / segmentWidth);
+        int rightSegment = leftSegment + 1;
 
-        //spriteBatch.Draw(Textures[leftSegment % Textures.Length], new Vector2(xy.X, 0.0f), Color.White);
-        //spriteBatch.Draw(Textures[rightSegment % Textures.Length], new Vector2(xy.X + segmentWidth, 0.0f), Color.White);
+        xy.x = (xy.x / segmentWidth - leftSegment) * -segmentWidth;
 
-        for (int i = 0; i <= EntityLayer; ++i)
-        {
-            // Calculate which segments to draw and how much to offset them.
-            xy.x  = cameraPosition * myIntArray[i];
+        spriteBatch.beginBatch(texture[leftSegment % texturesregion.length]);
 
-            int leftSegment = (int)Math.floor(xy.x / segmentWidth);
-            int rightSegment = leftSegment + 1;
+           spriteBatch.drawSprite(xy.x, 1080 / 2, 1920, 1080, texturesregion[leftSegment % texturesregion.length]);
+           spriteBatch.drawSprite(xy.x + segmentWidth, 1080 / 2, 1920, 1080, texturesregion[rightSegment % texturesregion.length]);
 
-            xy.x = (xy.x / segmentWidth - leftSegment) * -segmentWidth;
+        spriteBatch.endBatch();
 
-            spriteBatch.beginBatch(textures[i]);
-
-               spriteBatch.drawSprite(xy.x, 1080 / 2, 1920, 1080, layerRegion[leftSegment % textures.length]);
-               spriteBatch.drawSprite(xy.x + segmentWidth,  1080 /2, 1920, 1080, layerRegion[rightSegment % textures.length]);
-
-            spriteBatch.endBatch();
-        }
     }
 }
 

@@ -155,13 +155,13 @@ class Enemy extends DynamicGameObject
                 }
 
                 // HAVE WE HI THE SIDE OF THE SCREEN
-                if((position.x < Tile.TILE_WIDTH * 3) ||(position.x > 1920 - Tile.TILE_WIDTH * 3))
+               /* if((position.x < Tile.TILE_WIDTH * 3) ||(position.x > 1920 - Tile.TILE_WIDTH * 3))
                 {
                     if(side == 1)
                         side = -1;
                     else
                         side = 1;
-                }
+                }*/
             }
         }
     }

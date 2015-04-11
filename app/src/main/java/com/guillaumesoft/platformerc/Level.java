@@ -99,10 +99,9 @@ public class Level implements Disposable
     // CREATE A PLAYER INSTANCE
     public Player player;
 
-    private float cameraPosition;
+    public float cameraPosition;
 
-    private Layer layers;
-
+    private Layer[] layers;
 
     ////////////////////////////////////////////////////////////
     // CLASS FUNCTIONS
@@ -134,8 +133,10 @@ public class Level implements Disposable
         // GET THE SPRITE BATCH FORM THE GAME SCREEN
         this.spritebatcher = sp;
 
-
-        layers = new Layer();
+        layers = new Layer[3];
+        layers[0] = new Layer(Assets.layer00Region, Assets.layer00, 0.2f);
+        layers[1] = new Layer(Assets.layer10Region, Assets.layer10, 0.5f);
+        layers[2] = new Layer(Assets.layer20Region, Assets.layer20, 0.8f);
     }
 
     //////////////////////////////////////////////////////////
@@ -1146,13 +1147,15 @@ public class Level implements Disposable
         this.spritebatcher.endBatch();
     }
 
+    ////////////////////////////////////////////////////////////////////////////
+    // DRAW THE GAME SCREENS
+    ////////////////////////////////////////////////////////////////////////////
     public void Draw()
     {
-        //WindowManager wm = (WindowManager) ScreenManager.getConext().getSystemService(ScreenManager.getConext().WINDOW_SERVICE);
-        //Display display = wm.getDefaultDisplay();
-        ScrollCamera(ScreenManager.display);
 
-        layers.Draw(this.spritebatcher, cameraPosition);
+        for (int i = 0; i <= 2; ++i)
+            layers[i].Draw(this.spritebatcher, cameraPosition);
+
 
         // DRAW THE TILES TO THE SCREEN
         DrawTiles();
@@ -1324,7 +1327,10 @@ public class Level implements Disposable
 
     public void dispose()  {   }
 
-    private void ScrollCamera(Display display)
+    ///////////////////////////////////////////////////////////////////////
+    // KEEP THE PLAYER WITHIN THE CAMERA
+    //////////////////////////////////////////////////////////////////////
+    public void ScrollCamera(Display display)
     {
         final float ViewMargin = 0.35f;
         Point size = new Point();
