@@ -22,7 +22,7 @@ public class Layer
         texturesregion = new TextureRegion[3];
         texture = new Texture[3];
 
-        for (int i = 0; i < 3; ++i)
+        for (int i = 0; i < 2; ++i)
         {
             texturesregion[i] = region;
             texture[i] = textureLayer;
@@ -46,11 +46,17 @@ public class Layer
 
         xy.x = (xy.x / segmentWidth - leftSegment) * -segmentWidth;
 
-        spriteBatch.beginBatch(texture[leftSegment % texturesregion.length]);
+        /*spriteBatch.beginBatch(texture[leftSegment % texturesregion.length]);
 
            spriteBatch.drawSprite(xy.x, 1080 / 2, 1920, 1080, texturesregion[leftSegment % texturesregion.length]);
-
            spriteBatch.drawSprite(xy.x + segmentWidth, 1080 / 2, 1920, 1080, texturesregion[rightSegment % texturesregion.length]);
+
+        spriteBatch.endBatch();*/
+
+        spriteBatch.beginBatch(Assets.layer00);
+
+           spriteBatch.drawSprite(1920 /2, 1080 / 2, 1920, 1080, Assets.layer00Region);
+          //spriteBatch.drawSprite(xy.x + segmentWidth, 1080 / 2, 1920, 1080, texturesregion[rightSegment % texturesregion.length]);
 
         spriteBatch.endBatch();
 

@@ -5,6 +5,7 @@ import com.badlogic.androidgames.framework.gl.Animation;
 import com.badlogic.androidgames.framework.gl.SpriteBatcher;
 import com.badlogic.androidgames.framework.gl.TextureRegion;
 import com.badlogic.androidgames.framework.math.Clamp;
+import com.badlogic.androidgames.framework.math.OverlapTester;
 import com.badlogic.androidgames.framework.math.Vector2;
 import tv.ouya.console.api.OuyaController;
 
@@ -246,6 +247,7 @@ class Player extends DynamicGameObject
             }
         }
     }
+
 
     public void HandleCollisions()
     {

@@ -126,9 +126,9 @@ public class Level implements Disposable
         this.spritebatcher = sp;
 
         layers = new Layer[3];
-        layers[0] = new Layer(Assets.layer00Region, Assets.layer00, 0.2f);
+        layers[0] = new Layer(Assets.layer00Region, Assets.layer00, 0.5f);
         layers[1] = new Layer(Assets.layer10Region, Assets.layer10, 0.5f);
-        layers[2] = new Layer(Assets.layer20Region, Assets.layer20, 0.8f);
+        layers[2] = new Layer(Assets.layer20Region, Assets.layer20, 0.5f);
     }
 
     //////////////////////////////////////////////////////////
@@ -1175,9 +1175,8 @@ public class Level implements Disposable
     public void Draw()
     {
 
-        for (int i = 0; i <= 2; ++i)
-            layers[i].Draw(this.spritebatcher, cameraPosition);
-
+       //for (int i = 0; i <= 2; ++i)
+            layers[0].Draw(this.spritebatcher, cameraPosition);
 
         // DRAW THE TILES TO THE SCREEN
         DrawTiles();
