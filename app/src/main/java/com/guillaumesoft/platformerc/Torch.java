@@ -41,10 +41,12 @@ class Torch extends GameObject
     /// </summary>
     public void Draw(SpriteBatcher batcher)
     {
-       /* TextureRegion keyFrame;
+        TextureRegion keyFrame;
         keyFrame = Assets.torch.getKeyFrame(stateTime, Animation.ANIMATION_LOOPING);
-        batcher.beginBatch(Assets.items);
+        batcher.beginBatch(Assets.objectsAnimation);
+
            batcher.drawSprite(position.x, position.y, TORCH_WIDTH, TORCH_HEIGHT, keyFrame);
-        batcher.endBatch();*/
+
+        batcher.endBatch();
     }
 }

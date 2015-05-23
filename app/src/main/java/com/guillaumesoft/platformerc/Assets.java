@@ -296,9 +296,17 @@ public class Assets
 
         objectsAnimation = new Texture(game, "AnimationObjects.png");
 
-        torch = new Animation(0.2f, new TextureRegion(objectsAnimation, 0, 0, 64, 64), new TextureRegion(monsterA, 64, 0, 64, 64),
-                new TextureRegion(monsterC, 128, 0, 64, 64), new TextureRegion(monsterC, 192, 0, 64, 64), new TextureRegion(monsterC, 256, 0, 64, 64),
-                new TextureRegion(monsterC, 320, 0, 64, 64));
+        powerPickup = new Animation(0.2f, new TextureRegion(objectsAnimation, 0, 384, 64, 64), new TextureRegion(objectsAnimation, 64, 384, 64, 64),
+                new TextureRegion(objectsAnimation, 128, 384, 64, 64), new TextureRegion(objectsAnimation, 192, 384, 64, 64), new TextureRegion(objectsAnimation, 256, 384, 64, 64),
+                new TextureRegion(objectsAnimation, 320, 384, 64, 64),  new TextureRegion(objectsAnimation, 384, 384, 64, 64));
+
+        fireballPickup = new Animation(0.2f, new TextureRegion(objectsAnimation, 0, 448, 64, 64), new TextureRegion(objectsAnimation, 64, 448, 64, 64),
+                new TextureRegion(objectsAnimation, 128, 448, 64, 64), new TextureRegion(objectsAnimation, 192, 448, 64, 64), new TextureRegion(objectsAnimation, 256, 448, 64, 64),
+                new TextureRegion(objectsAnimation, 320, 448, 64, 64));
+
+
+        torch = new Animation(0.2f, new TextureRegion(objectsAnimation, 0, 0, 64, 64), new TextureRegion(objectsAnimation, 64, 0, 64, 64),
+                new TextureRegion(objectsAnimation, 128, 0, 64, 64), new TextureRegion(objectsAnimation, 192, 0, 64, 64), new TextureRegion(objectsAnimation, 256, 0, 64, 64));
 
         animationBarrel = new Animation(0.2f, new TextureRegion(objectsAnimation, 0, 64, 64, 64), new TextureRegion(monsterA, 64, 64, 64, 64),
                 new TextureRegion(monsterC, 128, 64, 64, 64), new TextureRegion(monsterC, 192, 64, 64, 64), new TextureRegion(monsterC, 256, 64, 64, 64),
@@ -323,13 +331,6 @@ public class Assets
                 new TextureRegion(monsterC, 128, 320, 64, 64), new TextureRegion(monsterC, 192, 320, 64, 64), new TextureRegion(monsterC, 256, 320, 64, 64),
                 new TextureRegion(monsterC, 320, 320, 64, 64),  new TextureRegion(monsterC, 384, 320, 64, 64),  new TextureRegion(monsterC, 448, 320, 64, 64));
 
-        powerPickup = new Animation(0.2f, new TextureRegion(objectsAnimation, 0, 192, 64, 64), new TextureRegion(monsterA, 64, 192, 64, 64),
-                new TextureRegion(monsterC, 128, 193, 64, 64), new TextureRegion(monsterC, 192, 192, 64, 64), new TextureRegion(monsterC, 256, 192, 64, 64),
-                new TextureRegion(monsterC, 320, 192, 64, 64),  new TextureRegion(monsterC, 384, 192, 64, 64),  new TextureRegion(monsterC, 448, 192, 64, 64));;
-
-        fireballPickup = new Animation(0.2f, new TextureRegion(objectsAnimation, 0, 192, 64, 64), new TextureRegion(monsterA, 64, 192, 64, 64),
-                new TextureRegion(monsterC, 128, 193, 64, 64), new TextureRegion(monsterC, 192, 192, 64, 64), new TextureRegion(monsterC, 256, 192, 64, 64),
-                new TextureRegion(monsterC, 320, 192, 64, 64),  new TextureRegion(monsterC, 384, 192, 64, 64),  new TextureRegion(monsterC, 448, 192, 64, 64));;
 
         // PLAYER SECTION
         player                 = new Texture(game, "player.png");

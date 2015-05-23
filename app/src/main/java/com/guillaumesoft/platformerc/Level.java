@@ -73,20 +73,26 @@ public class Level implements Disposable
 
     ////////////////////////////////////////////////////
     // CLASS INSTANCES
-    private ArrayList<String>   sInfo = new ArrayList<>();
-    private List<Gem>           gems;
-    private List<Enemy>         enamies;
-    private List<Axe>           axe;
-    private List<Bowl>          bowl;
-    private List<BullSkull>     bullskull;
-    private List<Dragon>        dragon;
-    private List<Food>          food;
-    private List<Skull>         skull;
-    private List<Spear>         spear;
-    private List<Stars>         stars;
-    private List<Armour>        armour;
-    private List<Barrel>        barrel;
-    private List<Fire>          fire;
+    private ArrayList<String>    sInfo = new ArrayList<>();
+    private List<Gem>            gems;
+    private List<Enemy>          enamies;
+    private List<Axe>            axe;
+    private List<Bowl>           bowl;
+    private List<BullSkull>      bullskull;
+    private List<Dragon>         dragon;
+    private List<Food>           food;
+    private List<Skull>          skull;
+    private List<Spear>          spear;
+    private List<Stars>          stars;
+    private List<Armour>         armour;
+    private List<Barrel>         barrel;
+    private List<Fire>           fire;
+    private List<GoldCoins>      goldcoins;
+    private List<SilverCoins>    silvercoins;
+    private List<BronzeCoins>    bronzeCoins;
+    private List<FireballPickup> firePickups;
+    private List<PowerPickup>    powerPickups;
+    private List<Torch>          torch;
 
     // CREATE A PLAYER INSTANCE
     public Player player;
@@ -114,7 +120,13 @@ public class Level implements Disposable
         this.stars        = new ArrayList<>();
         this.armour       = new ArrayList<>();
         this.barrel       = new ArrayList<>();
-        this.fire       = new ArrayList<>();
+        this.fire         = new ArrayList<>();
+        this.goldcoins    = new ArrayList<>();
+        this.silvercoins  = new ArrayList<>();
+        this.bronzeCoins  = new ArrayList<>();
+        this.firePickups  = new ArrayList<>();
+        this.powerPickups = new ArrayList<>();
+        this.torch        = new ArrayList<>();
 
         // LOAD THE TILES
         LoadTiles(fileStream);
@@ -209,32 +221,7 @@ public class Level implements Disposable
                 return LoadGemTile(x * Tile.TILE_WIDTH, y * Tile.TILE_HEIGHT);
 
             case '#':
-                TextureRegion block = Assets.BlockARegion;
-                switch(random.nextInt(4) + 1)
-                {
-                    case 1:
-                        block = Assets.BlockARegion;
-                        break;
-                    case 2:
-                        block = Assets.BlockBRegion;
-                        break;
-                    case 3:
-                        block = Assets.BlockCRegion;
-                        break;
-                    case 4:
-                        block = Assets.BlockDRegion;
-                        break;
-                    case 5:
-                        block = Assets.BlockERegion;
-                        break;
-                    case 6:
-                        block = Assets.BlockFRegion;
-                        break;
-                    case 7:
-                        block = Assets.BlockGRegion;
-                        break;
-                }
-                return LoadTile(x, y, block, TileCollision.Impassable);
+                return LoadTile(x, y, Assets.BlockARegion, TileCollision.Impassable);
 
             case 'X':
                 return LoadExitTile(x * Tile.TILE_WIDTH, y * Tile.TILE_HEIGHT);
@@ -293,6 +280,30 @@ public class Level implements Disposable
                 // LOAD THE FIRE
                return LoadFireTile(x * Tile.TILE_WIDTH, y * Tile.TILE_HEIGHT);
 
+            case 'U':
+               // LOAD THE FIRE
+               return LoadGoldCoinsTile(x * Tile.TILE_WIDTH, y * Tile.TILE_HEIGHT);
+
+            case 'V':
+                // LOAD THE FIRE
+                return LoadSilverCoinsTile(x * Tile.TILE_WIDTH, y * Tile.TILE_HEIGHT);
+
+            case 'W':
+                // LOAD THE FIRE
+                return LoadBronzeCoinsTile(x * Tile.TILE_WIDTH, y * Tile.TILE_HEIGHT);
+
+            case '2':
+                // LOAD THE POWER
+                return LoadPowerPickUpTile(x * Tile.TILE_WIDTH, y * Tile.TILE_HEIGHT);
+
+            case '3':
+                // LOAD THE FIRE
+                return LoadFirePickUpTile(x * Tile.TILE_WIDTH, y * Tile.TILE_HEIGHT);
+
+            case '4':
+                // LOAD THE TORCH
+                return LoadTorchTile(x * Tile.TILE_WIDTH, y * Tile.TILE_HEIGHT);
+
             default:
                 throw new UnsupportedOperationException("Unsupported tile type character");
         }
@@ -341,7 +352,18 @@ public class Level implements Disposable
     }
 
     /// <summary>
-    /// Instantiates a gem and put it in the level.
+    /// Instantiates the torch animation
+    /// </summary>
+    private Tile LoadTorchTile(float x, float y)
+    {
+        Torch TORCH  = new Torch(x, y);
+        this.torch.add(TORCH);
+
+        return new Tile(x, y, null, TileCollision.Passable);
+    }
+
+    /// <summary>
+    /// Instantiates the fire animation
     /// </summary>
     private Tile LoadFireTile(float x, float y)
     {
@@ -350,6 +372,57 @@ public class Level implements Disposable
 
         return new Tile(x, y, null, TileCollision.Passable);
     }
+
+    //////////////////////////////////////////////////////////////////
+    // LOAD THE POWER PICKUP TILES
+    private Tile  LoadPowerPickUpTile(float x, float y)
+    {
+        PowerPickup POWERPICKUP = new PowerPickup(x, y);
+        this.powerPickups.add(POWERPICKUP);
+
+        return new Tile(x, y, null, TileCollision.Passable);
+    }
+
+    //////////////////////////////////////////////////////////////////
+    // LOAD THE FIRE PICKUP TILES
+    private Tile  LoadFirePickUpTile(float x, float y)
+    {
+        FireballPickup FIREPICKUP = new FireballPickup(x, y);
+        this.firePickups.add(FIREPICKUP);
+
+        return new Tile(x, y, null, TileCollision.Passable);
+    }
+
+    //////////////////////////////////////////////////////////////////
+    // LOAD THE GOLD COINS
+    private Tile LoadGoldCoinsTile(float x, float y)
+    {
+        GoldCoins GOLDCOINS = new GoldCoins(x, y);
+        this.goldcoins.add(GOLDCOINS);
+
+        return new Tile(x, y, null, TileCollision.Passable);
+    }
+
+    //////////////////////////////////////////////////////////////////
+    // LOAD THE GOLD COINS
+    private Tile LoadSilverCoinsTile(float x, float y)
+    {
+        SilverCoins SILVERCOINS = new SilverCoins(x, y);
+        this.silvercoins.add(SILVERCOINS);
+
+        return new Tile(x, y, null, TileCollision.Passable);
+    }
+
+    //////////////////////////////////////////////////////////////////
+    // LOAD THE GOLD COINS
+    private Tile LoadBronzeCoinsTile(float x, float y)
+    {
+        BronzeCoins BRONZECOINS = new BronzeCoins(x, y);
+        this.bronzeCoins.add(BRONZECOINS);
+
+        return new Tile(x, y, null, TileCollision.Passable);
+    }
+
 
     /// <summary>
     /// Instantiates a gem and put it in the level.
@@ -472,264 +545,144 @@ public class Level implements Disposable
         return new Tile(x, y, null, TileCollision.Passable);
     }
 
-
-
-    // HAS THE PLAYER COLLIDED WITH ANY GAME OBJECTS
-    private void updateObjectCollisions()
+    /////////////////////////////////////////////
+    // UPDATE THE THE POWER PICK UP TILE
+    /////////////////////////////////////////////
+    public void updatePowerPickUp(float deltaTime)
     {
-        int i = 0;
-
-        // GEM
-        Iterator<Gem> GEM = gems.iterator();
-
-        while(GEM.hasNext())
+        int len = this.powerPickups.size();
+        for(int i = 0; i < len; i++)
         {
-            Gem obj = GEM.next();
+            PowerPickup POWERPICKUP = this.powerPickups.get(i);
+            POWERPICKUP.Update(deltaTime);
 
-            if (OverlapTester.overlapRectangles(player.bounds, obj.bounds))
+            if (OverlapTester.overlapRectangles(player.bounds, POWERPICKUP.bounds))
             {
                 if(Settings.soundEnabled)
                     Assets.playSound(Assets.gemCollected);
 
-                gems.remove(i);
+                this.powerPickups.remove(i);
 
-                OnGemCollected(obj, player);
-
-                break;
-            }
-            i++;
-        }
-
-        i = 0;
-
-        // barrel
-        Iterator<Barrel> BARREL = barrel.iterator();
-
-        while(BARREL.hasNext())
-        {
-            Barrel obj = BARREL.next();
-
-            if (OverlapTester.overlapRectangles(player.bounds, obj.bounds))
-            {
-                if(Settings.soundEnabled)
-                    Assets.playSound(Assets.gemCollected);
-
-                barrel.remove(i);
-
-                OnBarrelCollected(obj, player);
+                OnPowerPickupCollected(POWERPICKUP);
 
                 break;
             }
-            i++;
-        }
-
-        i = 0;
-
-        // axe
-        Iterator<Axe> AXE = axe.iterator();
-
-        while(AXE.hasNext())
-        {
-            Axe obj = AXE.next();
-
-            if (OverlapTester.overlapRectangles(player.bounds, obj.bounds))
-            {
-                if(Settings.soundEnabled)
-                    Assets.playSound(Assets.gemCollected);
-
-                axe.remove(i);
-
-                OnAxeCollected(obj, player);
-
-                break;
-            }
-            i++;
-        }
-
-        i = 0;
-
-        // bowl
-        Iterator<Bowl> BOWL = bowl.iterator();
-
-        while(BOWL.hasNext())
-        {
-            Bowl obj = BOWL.next();
-
-            if (OverlapTester.overlapRectangles(player.bounds, obj.bounds))
-            {
-                if(Settings.soundEnabled)
-                    Assets.playSound(Assets.gemCollected);
-
-                bowl.remove(i);
-
-                OnBowlCollected(obj, player);
-
-                break;
-            }
-            i++;
-        }
-
-        i = 0;
-
-        // bullskull
-        Iterator<BullSkull> BULLSKULL = bullskull.iterator();
-
-        while(BULLSKULL.hasNext())
-        {
-            BullSkull obj = BULLSKULL.next();
-
-            if (OverlapTester.overlapRectangles(player.bounds, obj.bounds))
-            {
-                if(Settings.soundEnabled)
-                    Assets.playSound(Assets.gemCollected);
-
-                bullskull.remove(i);
-
-                OnBullskullCollected(obj, player);
-
-                break;
-            }
-            i++;
-        }
-
-        i = 0;
-
-        // dragon
-        Iterator<Dragon> DRAGON = dragon.iterator();
-
-        while(DRAGON.hasNext())
-        {
-            Dragon obj = DRAGON.next();
-
-            if (OverlapTester.overlapRectangles(player.bounds, obj.bounds))
-            {
-                if(Settings.soundEnabled)
-                    Assets.playSound(Assets.gemCollected);
-
-                dragon.remove(i);
-
-                OnDragonCollected(obj, player);
-
-                break;
-            }
-            i++;
-        }
-
-        i = 0;
-
-        // dragon
-        Iterator<Food> FOOD = food.iterator();
-
-        while(FOOD.hasNext())
-        {
-            Food obj = FOOD.next();
-
-            if (OverlapTester.overlapRectangles(player.bounds, obj.bounds))
-            {
-                if(Settings.soundEnabled)
-                    Assets.playSound(Assets.gemCollected);
-
-                food.remove(i);
-
-                OnFoodCollected(obj, player);
-
-                break;
-            }
-            i++;
-        }
-
-        i = 0;
-
-        // dragon
-        Iterator<Skull> SKULL = skull.iterator();
-
-        while(SKULL.hasNext())
-        {
-            Skull obj = SKULL.next();
-
-            if (OverlapTester.overlapRectangles(player.bounds, obj.bounds))
-            {
-                if(Settings.soundEnabled)
-                    Assets.playSound(Assets.gemCollected);
-
-                skull.remove(i);
-
-                OnSkullCollected(obj, player);
-
-                break;
-            }
-            i++;
-        }
-
-        i = 0;
-
-        // pickup spear
-        Iterator<Spear> SPEAR = spear.iterator();
-
-        while(SPEAR.hasNext())
-        {
-            Spear obj = SPEAR.next();
-
-            if (OverlapTester.overlapRectangles(player.bounds, obj.bounds))
-            {
-                if(Settings.soundEnabled)
-                    Assets.playSound(Assets.gemCollected);
-
-                spear.remove(i);
-
-                OnSpearCollected(obj, player);
-
-                break;
-            }
-            i++;
-        }
-
-        i = 0;
-
-        // pickup stars
-        Iterator<Stars> STARS = stars.iterator();
-
-        while(STARS.hasNext())
-        {
-            Stars obj = STARS.next();
-
-            if (OverlapTester.overlapRectangles(player.bounds, obj.bounds))
-            {
-                if(Settings.soundEnabled)
-                    Assets.playSound(Assets.gemCollected);
-
-                stars.remove(i);
-
-                OnStarsCollected(obj, player);
-
-                break;
-            }
-            i++;
-        }
-
-        i = 0;
-
-        // pickup stars
-        Iterator<Armour> ARMOUR = armour.iterator();
-
-        while(ARMOUR.hasNext())
-        {
-            Armour obj = ARMOUR.next();
-
-            if (OverlapTester.overlapRectangles(player.bounds, obj.bounds))
-            {
-                if(Settings.soundEnabled)
-                    Assets.playSound(Assets.gemCollected);
-
-                armour.remove(i);
-
-                OnArmourCollected(obj, player);
-
-                break;
-            }
-            i++;
         }
     }
+
+    /////////////////////////////////////////////
+    // UPDATE THE THE FIRE PICK UP TILE
+    /////////////////////////////////////////////
+    public void updateFirePickUp(float deltaTime)
+    {
+        int len = this.firePickups.size();
+        for(int i = 0; i < len; i++)
+        {
+            FireballPickup FIREPICKUP = this.firePickups.get(i);
+            FIREPICKUP.Update(deltaTime);
+
+            if (OverlapTester.overlapRectangles(player.bounds, FIREPICKUP.bounds))
+            {
+                if(Settings.soundEnabled)
+                    Assets.playSound(Assets.gemCollected);
+
+                this.firePickups.remove(i);
+
+                OnFirePickupCollected(FIREPICKUP);
+
+                break;
+            }
+        }
+    }
+
+    /////////////////////////////////////////////
+    // UPDATE THE THE GOLD COILD TILE
+    /////////////////////////////////////////////
+    public void updateGoldCoins(float deltaTime)
+    {
+        int len = this.goldcoins.size();
+        for(int i = 0; i < len; i++)
+        {
+            GoldCoins GOLDCOINS = this.goldcoins.get(i);
+            GOLDCOINS.Update(deltaTime);
+
+            if (OverlapTester.overlapRectangles(player.bounds, GOLDCOINS.bounds))
+            {
+                if(Settings.soundEnabled)
+                    Assets.playSound(Assets.gemCollected);
+
+                goldcoins.remove(i);
+
+                OnGoldCoinsCollected(GOLDCOINS);
+
+                break;
+            }
+        }
+    }
+
+    /////////////////////////////////////////////
+    // UPDATE THE THE SILVER COILD TILE
+    /////////////////////////////////////////////
+    public void updateTorchAnimation(float deltaTime)
+    {
+        int len = this.torch.size();
+        for (int i = 0; i < len; i++)
+        {
+            Torch TORCH = this.torch.get(i);
+            TORCH.Update(deltaTime);
+        }
+    }
+
+    /////////////////////////////////////////////
+    // UPDATE THE THE SILVER COILD TILE
+    /////////////////////////////////////////////
+    public void updateSilverCoins(float deltaTime)
+    {
+        int len = this.silvercoins.size();
+        for(int i = 0; i < len; i++)
+        {
+            SilverCoins SILVERCOINS = this.silvercoins.get(i);
+            SILVERCOINS.Update(deltaTime);
+
+            if (OverlapTester.overlapRectangles(player.bounds, SILVERCOINS.bounds))
+            {
+                if(Settings.soundEnabled)
+                    Assets.playSound(Assets.gemCollected);
+
+                silvercoins.remove(i);
+
+                OnSilverCoinsCollected(SILVERCOINS);
+
+                break;
+            }
+        }
+    }
+
+    /////////////////////////////////////////////
+    // UPDATE THE THE BRONZE COILD TILE
+    /////////////////////////////////////////////
+    public void updateBronzeCoins(float deltaTime)
+    {
+        int len = this.bronzeCoins.size();
+        for(int i = 0; i < len; i++)
+        {
+            BronzeCoins BRONZECOINS = this.bronzeCoins.get(i);
+            BRONZECOINS.Update(deltaTime);
+
+            if (OverlapTester.overlapRectangles(player.bounds, BRONZECOINS.bounds))
+            {
+                if(Settings.soundEnabled)
+                    Assets.playSound(Assets.gemCollected);
+
+                bronzeCoins.remove(i);
+
+                OnBronzeCoinsCollected(BRONZECOINS);
+
+                break;
+            }
+        }
+    }
+
 
     /////////////////////////////////////////////
     // UPDATE THE THE GEM TILE
@@ -741,6 +694,18 @@ public class Level implements Disposable
         {
             Gem GEM = this.gems.get(i);
             GEM.Update(deltaTime);
+
+            if (OverlapTester.overlapRectangles(player.bounds, GEM.bounds))
+            {
+                if(Settings.soundEnabled)
+                    Assets.playSound(Assets.gemCollected);
+
+                gems.remove(i);
+
+                OnGemCollected(GEM);
+
+                break;
+            }
         }
     }
 
@@ -754,6 +719,18 @@ public class Level implements Disposable
         {
             Axe AXE = this.axe.get(i);
             AXE.Update(deltaTime);
+
+            if (OverlapTester.overlapRectangles(player.bounds, AXE.bounds))
+            {
+                if(Settings.soundEnabled)
+                    Assets.playSound(Assets.gemCollected);
+
+                axe.remove(i);
+
+                OnAxeCollected(AXE);
+
+                break;
+            }
         }
     }
 
@@ -767,6 +744,18 @@ public class Level implements Disposable
         {
             Barrel BARREL = this.barrel.get(i);
             BARREL.Update(deltaTime);
+
+            if (OverlapTester.overlapRectangles(player.bounds, BARREL.bounds))
+            {
+                if(Settings.soundEnabled)
+                    Assets.playSound(Assets.gemCollected);
+
+                barrel.remove(i);
+
+                OnBarrelCollected(BARREL);
+
+                break;
+            }
         }
     }
 
@@ -780,6 +769,18 @@ public class Level implements Disposable
         {
             Bowl BOWL = this.bowl.get(i);
             BOWL.Update(deltaTime);
+
+            if (OverlapTester.overlapRectangles(player.bounds, BOWL.bounds))
+            {
+                if(Settings.soundEnabled)
+                    Assets.playSound(Assets.gemCollected);
+
+                bowl.remove(i);
+
+                OnBowlCollected(BOWL);
+
+                break;
+            }
         }
     }
 
@@ -793,6 +794,18 @@ public class Level implements Disposable
         {
             BullSkull BULLSKULL = this.bullskull.get(i);
             BULLSKULL.Update(deltaTime);
+
+            if (OverlapTester.overlapRectangles(player.bounds, BULLSKULL.bounds))
+            {
+                if(Settings.soundEnabled)
+                    Assets.playSound(Assets.gemCollected);
+
+                bullskull.remove(i);
+
+                OnBullskullCollected(BULLSKULL);
+
+                break;
+            }
         }
     }
 
@@ -806,6 +819,18 @@ public class Level implements Disposable
         {
             Dragon DRAGON = this.dragon.get(i);
             DRAGON.Update(deltaTime);
+
+            if (OverlapTester.overlapRectangles(player.bounds, DRAGON.bounds))
+            {
+                if(Settings.soundEnabled)
+                    Assets.playSound(Assets.gemCollected);
+
+                dragon.remove(i);
+
+                OnDragonCollected(DRAGON);
+
+                break;
+            }
         }
     }
 
@@ -820,6 +845,18 @@ public class Level implements Disposable
         {
             Food FOOD = this.food.get(i);
             FOOD.Update(deltaTime);
+
+            if (OverlapTester.overlapRectangles(player.bounds, FOOD.bounds))
+            {
+                if(Settings.soundEnabled)
+                    Assets.playSound(Assets.gemCollected);
+
+                food.remove(i);
+
+                OnFoodCollected(FOOD);
+
+                break;
+            }
         }
     }
 
@@ -833,6 +870,18 @@ public class Level implements Disposable
         {
             Skull SKULL = this.skull.get(i);
             SKULL.Update(deltaTime);
+
+            if (OverlapTester.overlapRectangles(player.bounds, SKULL.bounds))
+            {
+                if(Settings.soundEnabled)
+                    Assets.playSound(Assets.gemCollected);
+
+                skull.remove(i);
+
+                OnSkullCollected(SKULL);
+
+                break;
+            }
         }
     }
 
@@ -846,6 +895,18 @@ public class Level implements Disposable
         {
             Spear SPEAR = this.spear.get(i);
             SPEAR.Update(deltaTime);
+
+            if (OverlapTester.overlapRectangles(player.bounds, SPEAR.bounds))
+            {
+                if(Settings.soundEnabled)
+                    Assets.playSound(Assets.gemCollected);
+
+                spear.remove(i);
+
+                OnSpearCollected(SPEAR);
+
+                break;
+            }
         }
     }
 
@@ -859,6 +920,18 @@ public class Level implements Disposable
         {
             Stars STARS = this.stars.get(i);
             STARS.Update(deltaTime);
+
+            if (OverlapTester.overlapRectangles(player.bounds, STARS.bounds))
+            {
+                if(Settings.soundEnabled)
+                    Assets.playSound(Assets.gemCollected);
+
+                stars.remove(i);
+
+                OnStarsCollected(STARS);
+
+                break;
+            }
         }
     }
 
@@ -872,6 +945,18 @@ public class Level implements Disposable
         {
             Armour ARMOUR = this.armour.get(i);
             ARMOUR.Update(deltaTime);
+
+            if (OverlapTester.overlapRectangles(player.bounds, ARMOUR.bounds))
+            {
+                if(Settings.soundEnabled)
+                    Assets.playSound(Assets.gemCollected);
+
+                armour.remove(i);
+
+                OnArmourCollected(ARMOUR);
+
+                break;
+            }
         }
     }
 
@@ -896,12 +981,12 @@ public class Level implements Disposable
             Enemy ENEMY = this.enamies.get(i);
             ENEMY.Update(deltaTime);
 
-            if((player.isAlive)&&(ENEMY.isAlive))
+            if((player.GetIsAlive())&&(ENEMY.isAlive))
             {
                 if (OverlapTester.overlapRectangles(player.bounds, ENEMY.bounds))
                 {
                     //  IF THE PLAYER IS ATTACKING AND THE ENEMY IS ALIVE THEN KILL THE ENEMY
-                    if (player.isAttacking)
+                    if (player.GetAttacking())
                     {
                         ENEMY.OnKilled();
                     }
@@ -909,7 +994,7 @@ public class Level implements Disposable
                     {
                         player.OnKilled();
 
-                        if (player.lives == 0)
+                        if (player.GetLives() == 0)
                         {
                             OnPlayerKilled();
                         }
@@ -919,16 +1004,61 @@ public class Level implements Disposable
         }
     }
 
+    ///////////////////////////////////////////////////////////
+    // THE PLAYER COLLECTED THE FIRE
+    private void OnFirePickupCollected(FireballPickup fire)
+    {
+        score += fire.PointValue;
+
+        fire.OnCollected();
+    }
+
+    ///////////////////////////////////////////////////////////
+    // THE PLAYER COLLECTED THE POWER
+    private void OnPowerPickupCollected(PowerPickup power)
+    {
+        score += power.PointValue;
+
+        power.OnCollected();
+    }
+
+    ///////////////////////////////////////////////////////////
+    // THE PLAYER COLLECTED THE GOLD COINS
+    private void OnGoldCoinsCollected(GoldCoins gold)
+    {
+        score += gold.PointValue;
+
+        gold.OnCollected();
+    }
+
+    ///////////////////////////////////////////////////////////
+    // THE PLAYER COLLECTED THE SILVER COINS
+    private void OnSilverCoinsCollected(SilverCoins silver)
+    {
+        score += silver.PointValue;
+
+        silver.OnCollected();
+    }
+
+    ///////////////////////////////////////////////////////////
+    // THE PLAYER COLLECTED THE BRONZE COINS
+    private void OnBronzeCoinsCollected(BronzeCoins bronze)
+    {
+        score += bronze.PointValue;
+
+        bronze.OnCollected();
+    }
+
     /// <summary>
     /// Called when a axe is collected.
     /// </summary>
     /// <param name="gem">The gem that was collected.</param>
     /// <param name="collectedBy">The player who collected this gem.</param>
-    private void OnGemCollected(Gem gem, Player collectedBy)
+    private void OnGemCollected(Gem gem)
     {
         score += gem.PointValue;
 
-        gem.OnCollected(collectedBy);
+        gem.OnCollected();
     }
 
     /// <summary>
@@ -936,11 +1066,11 @@ public class Level implements Disposable
     /// </summary>
     /// <param name="barrel">The barrel that was collected.</param>
     /// <param name="collectedBy">The player who collected this gem.</param>
-    private void OnBarrelCollected(Barrel barrel, Player collectedBy)
+    private void OnBarrelCollected(Barrel barrel)
     {
         score += barrel.PointValue;
 
-        barrel.OnCollected(collectedBy);
+        barrel.OnCollected();
     }
 
     /// <summary>
@@ -948,11 +1078,11 @@ public class Level implements Disposable
     /// </summary>
     /// <param name="axe">The axe that was collected.</param>
     /// <param name="collectedBy">The player who collected this gem.</param>
-    private void OnAxeCollected(Axe axe, Player collectedBy)
+    private void OnAxeCollected(Axe axe)
     {
         score += axe.PointValue;
 
-        axe.OnCollected(collectedBy);
+        axe.OnCollected();
     }
 
     /// <summary>
@@ -960,10 +1090,10 @@ public class Level implements Disposable
     /// </summary>
     /// <param name="bowl">The bowl that was collected.</param>
     /// <param name="collectedBy">The player who collected this gem.</param>
-    private void OnBowlCollected(Bowl bowl, Player collectedBy)
+    private void OnBowlCollected(Bowl bowl)
     {
         score += bowl.PointValue;
-        bowl.OnCollected(collectedBy);
+        bowl.OnCollected();
     }
 
 
@@ -972,11 +1102,11 @@ public class Level implements Disposable
     /// </summary>
     /// <param name="bullskull">The bullskull that was collected.</param>
     /// <param name="collectedBy">The player who collected this gem.</param>
-    private void OnBullskullCollected(BullSkull bullskull, Player collectedBy)
+    private void OnBullskullCollected(BullSkull bullskull)
     {
         score += bullskull.PointValue;
 
-        bullskull.OnCollected(collectedBy);
+        bullskull.OnCollected();
     }
 
     /// <summary>
@@ -984,11 +1114,11 @@ public class Level implements Disposable
     /// </summary>
     /// <param name="dragon">The dragon that was collected.</param>
     /// <param name="collectedBy">The player who collected this gem.</param>
-    private void OnDragonCollected(Dragon dragon, Player collectedBy)
+    private void OnDragonCollected(Dragon dragon)
     {
         score += dragon.PointValue;
 
-        dragon.OnCollected(collectedBy);
+        dragon.OnCollected();
     }
 
     /// <summary>
@@ -996,11 +1126,11 @@ public class Level implements Disposable
     /// </summary>
     /// <param name="food">The food that was collected.</param>
     /// <param name="collectedBy">The player who collected this gem.</param>
-    private void OnFoodCollected(Food food, Player collectedBy)
+    private void OnFoodCollected(Food food)
     {
         score += food.PointValue;
 
-        food.OnCollected(collectedBy);
+        food.OnCollected();
     }
 
     /// <summary>
@@ -1008,11 +1138,11 @@ public class Level implements Disposable
     /// </summary>
     /// <param name="skull">The skull that was collected.</param>
     /// <param name="collectedBy">The player who collected this gem.</param>
-    private void OnSkullCollected(Skull skull, Player collectedBy)
+    private void OnSkullCollected(Skull skull)
     {
         score += skull.PointValue;
 
-        skull.OnCollected(collectedBy);
+        skull.OnCollected();
     }
 
     /// <summary>
@@ -1020,11 +1150,11 @@ public class Level implements Disposable
     /// </summary>
     /// <param name="spear">The spear that was collected.</param>
     /// <param name="collectedBy">The player who collected this gem.</param>
-    private void OnSpearCollected(Spear spear, Player collectedBy)
+    private void OnSpearCollected(Spear spear)
     {
         score += spear.PointValue;
 
-        spear.OnCollected(collectedBy);
+        spear.OnCollected();
     }
 
     /// <summary>
@@ -1032,18 +1162,18 @@ public class Level implements Disposable
     /// </summary>
     /// <param name="spear">The spear that was collected.</param>
     /// <param name="collectedBy">The player who collected this gem.</param>
-    private void OnStarsCollected(Stars star, Player collectedBy)
+    private void OnStarsCollected(Stars star)
     {
         score += star.PointValue;
 
-        star.OnCollected(collectedBy);
+        star.OnCollected();
     }
 
-    private void OnArmourCollected(Armour armour, Player collectedBy)
+    private void OnArmourCollected(Armour armour)
     {
         score += armour.PointValue;
 
-        armour.OnCollected(collectedBy);
+        armour.OnCollected();
     }
 
 
@@ -1081,7 +1211,7 @@ public class Level implements Disposable
         final int PointsPerSecond = 5;
 
         // Pause while the player is dead or time is expired.
-        if (!player.isAlive || TimeRemaing == 0.0f)
+        if (!player.GetIsAlive() || TimeRemaing == 0.0f)
         {
             // Still want to perform physics on the player.
             player.ApplyPhysics(deltaTime);
@@ -1099,9 +1229,7 @@ public class Level implements Disposable
             TimeRemaing -= deltaTime;
             player.Update(deltaTime, gamePadState);
             updateGem(deltaTime);
-            updateObjectCollisions();
             updateEnemies(deltaTime);
-
             updateAxe(deltaTime);
             updateBowl(deltaTime);
             updateBullskull(deltaTime);
@@ -1113,6 +1241,12 @@ public class Level implements Disposable
             updateArmour(deltaTime);
             updateBarrel(deltaTime);
             updateFire(deltaTime);
+            updateGoldCoins(deltaTime);
+            updateSilverCoins(deltaTime);
+            updateBronzeCoins(deltaTime);
+            updateFirePickUp(deltaTime);
+            updatePowerPickUp(deltaTime);
+            updateTorchAnimation(deltaTime);
 
             // DID THE USER HIT THE EXIT
             if (OverlapTester.overlapRectangles(exitbounds, player.bounds))
@@ -1276,6 +1410,54 @@ public class Level implements Disposable
             FIRE.Draw(this.spritebatcher);
         }
 
+        ////////////////////////////////////////////////////////////
+        // DRAW THE GOLD COINS
+        len = this.goldcoins.size();
+        for(int i = 0; i < len; i++)
+        {
+            GoldCoins GOLDCOINS = this.goldcoins.get(i);
+            GOLDCOINS.Draw(this.spritebatcher);
+        }
+
+        // DRAW THE SILVER COINS
+        len = this.silvercoins.size();
+        for(int i = 0; i < len; i++)
+        {
+            SilverCoins SILVERCOINS = this.silvercoins.get(i);
+            SILVERCOINS.Draw(this.spritebatcher);
+        }
+
+        //DRAW THE BRONZE COINS
+        len = this.bronzeCoins.size();
+        for(int i = 0; i < len; i++)
+        {
+            BronzeCoins BRONZECOINS = this.bronzeCoins.get(i);
+            BRONZECOINS.Draw(this.spritebatcher);
+        }
+
+        // DRAW THE POWER PICKUP TILES
+        len = this.powerPickups.size();
+        for(int i = 0; i < len; i++)
+        {
+            PowerPickup POWERPICKUP = this.powerPickups.get(i);
+            POWERPICKUP.Draw(this.spritebatcher);
+        }
+
+        // DRAW THE FIRE PICKUP TILES
+        len = this.firePickups.size();
+        for(int i = 0; i < len; i++)
+        {
+            FireballPickup FIREPICKUP = this.firePickups.get(i);
+            FIREPICKUP.Draw(this.spritebatcher);
+        }
+
+        len = this.torch.size();
+        for (int i = 0; i < len; i++)
+        {
+            Torch TORCH = this.torch.get(i);
+            TORCH.Draw(this.spritebatcher);
+        }
+
         // DRAW THE PLAYER
         player.Draw(this.spritebatcher);
 
@@ -1343,7 +1525,7 @@ public class Level implements Disposable
     /// </summary>
     public void StartNewLife()
     {
-        player.Reset(new Vector2(player.start));
+        player.Reset(new Vector2(player.GetStart()));
     }
 
     public void dispose()  {   }

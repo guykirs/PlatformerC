@@ -1,9 +1,8 @@
 package com.guillaumesoft.platformerc;
 
 import com.badlogic.androidgames.framework.DynamicGameObject;
-import com.badlogic.androidgames.framework.GameObject;
 import com.badlogic.androidgames.framework.gl.SpriteBatcher;
-import com.badlogic.androidgames.framework.math.Vector2;
+
 
 /// <summary>
 ///  THIS CLASS DRAWS THE GEM TO THE SCREEN
@@ -40,7 +39,7 @@ class Gem extends DynamicGameObject
     /// The player who collected this gem. Although currently not used, this parameter would be
     /// useful for creating special powerup gems. For example, a gem could make the player invincible.
     /// </param>
-    public void OnCollected(Player collectedBy)
+    public void OnCollected()
     {
         Assets.playSound(Assets.gemCollected);
     }

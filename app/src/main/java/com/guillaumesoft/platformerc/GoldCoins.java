@@ -35,6 +35,12 @@ class GoldCoins extends GameObject
         stateTime += deltaTime;
     }
 
+
+    public void OnCollected()
+    {
+        Assets.playSound(Assets.gemCollected);
+    }
+
     /// <summary>
     /// Draws a gem in the appropriate color.
     /// </summary>

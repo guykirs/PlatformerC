@@ -30,6 +30,11 @@ class SilverCoins extends GameObject
         super(x, y, COIN_WIDTH, COIN_HEIGHT);
     }
 
+    public void OnCollected()
+    {
+        Assets.playSound(Assets.gemCollected);
+    }
+
     public void Update(float deltaTime)
     {
         stateTime += deltaTime;

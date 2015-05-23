@@ -1,9 +1,7 @@
 package com.guillaumesoft.platformerc;
 
 import com.badlogic.androidgames.framework.DynamicGameObject;
-import com.badlogic.androidgames.framework.GameObject;
 import com.badlogic.androidgames.framework.gl.SpriteBatcher;
-import com.badlogic.androidgames.framework.math.Vector2;
 
 /// <summary>
 ///  THIS CLASS DRAWS THE GEM TO THE SCREEN
@@ -26,7 +24,7 @@ class Spear extends DynamicGameObject
     private float bounce;
 
     /// <summary>
-    /// Constructs a new gem.
+    /// Constructs a new spear.
     /// </summary>
     public Spear(float x, float y)
     {
@@ -34,13 +32,9 @@ class Spear extends DynamicGameObject
     }
 
     /// <summary>
-    /// Called when this gem has been collected by a player and removed from the level.
+    /// Called when this spear has been collected by a player and removed from the level.
     /// </summary>
-    /// <param name="collectedBy">
-    /// The player who collected this gem. Although currently not used, this parameter would be
-    /// useful for creating special powerup gems. For example, a gem could make the player invincible.
-    /// </param>
-    public void OnCollected(Player collectedBy)
+    public void OnCollected()
     {
         Assets.playSound(Assets.gemCollected);
     }
@@ -58,7 +52,7 @@ class Spear extends DynamicGameObject
     }
 
     /// <summary>
-    /// Draws a gem in the appropriate color.
+    /// Draws a spear in the appropriate color.
     /// </summary>
     public void Draw(SpriteBatcher batcher)
     {

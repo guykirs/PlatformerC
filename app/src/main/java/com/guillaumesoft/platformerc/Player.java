@@ -51,18 +51,54 @@ class Player extends DynamicGameObject
     // PUBLIC CLASS VARAIBLES
 
     // GET THE PLAYER ATTACK STATE
-    public  boolean isAttacking = false;
     public  float   AttackTime;
 
+    ////////////////////////////////////////////////
+    // CLASS PROPERTIES
+
+    public  boolean GetAttacking()
+    {
+        return isAttacking;
+    }
+
+    public void SetAttacking(boolean value)
+    {
+        isAttacking = value;
+    }
+    public  boolean isAttacking = false;
+
+    public Vector2 GetStart()
+    {
+        return start;
+    }
+
+    public void SetStart(Vector2 value)
+    {
+        start = value;
+    }
+    public Vector2 start = null;
+
     //GET THE PLAYER LIFE STATE
+    public boolean GetIsAlive()
+    {
+        return isAlive;
+    }
+
+    public void SetIsAlive(boolean value)
+    {
+        isAlive = value;
+    }
     public boolean isAlive;
+
     /// <summary>
     /// KEEP TRACK OF PLAYER LIVES
     /// </summary>
+    public int GetLives()
+    {
+        return lives;
+    }
     public int lives = 3;
 
-    // PLAYER START POSITION
-    public Vector2 start = null;
 
     /// <summary>
     /// Constructors a new player.

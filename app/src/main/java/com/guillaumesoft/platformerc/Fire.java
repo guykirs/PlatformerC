@@ -4,8 +4,6 @@ import com.badlogic.androidgames.framework.DynamicGameObject;
 import com.badlogic.androidgames.framework.gl.Animation;
 import com.badlogic.androidgames.framework.gl.SpriteBatcher;
 import com.badlogic.androidgames.framework.gl.TextureRegion;
-import com.badlogic.androidgames.framework.math.Vector2;
-import tv.ouya.console.api.OuyaController;
 
 class Fire extends DynamicGameObject
 {
@@ -16,7 +14,6 @@ class Fire extends DynamicGameObject
     private static final int FIRE_WIDTH   = 90;
     private static final int FIRE_HEIGHT  = 100;
 
-    private Level level;
     private float stateTime;
 
     /////////////////////////////////////////////////
@@ -28,11 +25,7 @@ class Fire extends DynamicGameObject
     public Fire(float x, float y)
     {
         super(x, y, FIRE_WIDTH, FIRE_HEIGHT);
-
-        // PASS THE LEVEL INSTANCE TO THIS CLASS
-        this.level = level;
     }
-
 
     /// <summary>
     /// Handles input, performs physics, and animates the player sprite.
@@ -56,7 +49,6 @@ class Fire extends DynamicGameObject
         TextureRegion keyFrame;
 
         keyFrame = Assets.fire.getKeyFrame(stateTime, Animation.ANIMATION_LOOPING);
-
 
         batcher.beginBatch(Assets.objectsAnimation);
 
