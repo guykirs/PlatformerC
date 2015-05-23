@@ -4,6 +4,8 @@ import com.badlogic.androidgames.framework.Game;
 import com.badlogic.androidgames.framework.gl.Camera2D;
 import com.badlogic.androidgames.framework.gl.SpriteBatcher;
 import com.badlogic.androidgames.framework.impl.GLScreen;
+import com.badlogic.androidgames.framework.math.Vector2;
+
 import java.io.IOException;
 import javax.microedition.khronos.opengles.GL10;
 import tv.ouya.console.api.OuyaController;
@@ -23,7 +25,7 @@ public class GameScreen extends GLScreen
     // then we use the same input state wherever needed
     // private OuyaController gamePadState;
     private SpriteBatcher batcher;
-    private Camera2D      guiCam;
+
 
     // The number of levels in the Levels directory of our content. We assume that
     // levels in our content are 0-based and that all numbers under this constant
@@ -41,7 +43,7 @@ public class GameScreen extends GLScreen
 
         // SETUP  THE CAMERA AND GRAPHICS
         this.batcher = new SpriteBatcher(glGraphics, 1000);
-        guiCam       = new Camera2D(glGraphics, 1920, 1080);
+        ScreenManager.gameCamera = new Camera2D(glGraphics, 1920, 1080);
 
         LoadNextLevel();
     }
@@ -126,7 +128,7 @@ public class GameScreen extends GLScreen
     {
         GL10 gl = glGraphics.getGL();
         gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
-        guiCam.setViewportAndMatrices();
+        ScreenManager.gameCamera.setViewportAndMatrices();
 
         gl.glEnable(GL10.GL_BLEND);
         gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
@@ -134,6 +136,8 @@ public class GameScreen extends GLScreen
            level.ScrollCamera(ScreenManager.GetDisplay());
 
            gl.glPushMatrix();
+
+              gl.glScalef(1.1f, 1.0f, 1.0f);
 
               gl.glTranslatef(-level.cameraPosition, 0.0f, 0.0f);
 

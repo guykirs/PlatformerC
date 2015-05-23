@@ -1,65 +1,114 @@
 package com.guillaumesoft.platformerc;
 
+import com.badlogic.androidgames.framework.Game;
+import com.badlogic.androidgames.framework.gl.Camera2D;
 import com.badlogic.androidgames.framework.gl.SpriteBatcher;
 import com.badlogic.androidgames.framework.gl.Texture;
 import com.badlogic.androidgames.framework.gl.TextureRegion;
+import com.badlogic.androidgames.framework.impl.GLScreen;
 import com.badlogic.androidgames.framework.math.Vector2;
 
-/// <summary>
-/// This is a game component that implements IUpdateable.
-/// </summary>
+import javax.microedition.khronos.opengles.GL10;
+
+//////////////////////////////////////////////////////////////////
+// October / 21/ 2014
+// Guillaume Swolfs
+// guillaumesoft
+// RatingSplashScreen class
+//////////////////////////////////////////////////////////////////
 public class Layer
 {
+    /////////////////////////////////////////
+    // CLASS VARAIBLES
+    /////////////////////////////////////////
+    public Texture[] textures;
+    public TextureRegion[] texturesRegion;
 
-    public  TextureRegion[] texturesregion;
-    public  Texture[] texture;
-    public float ScrollRate;
 
-
-    public Layer(TextureRegion region, Texture textureLayer, float scrollRate)
+    /////////////////////////////////////////
+    // CLASS CONSTRUCTOR
+    /////////////////////////////////////////
+    public Layer()
     {
-        // Assumes each layer only has 3 segments.
-        texturesregion = new TextureRegion[3];
-        texture = new Texture[3];
-
-        for (int i = 0; i < 2; ++i)
+        textures = new Texture[3];
+        for (int i = 0; i < 3; ++i)
         {
-            texturesregion[i] = region;
-            texture[i] = textureLayer;
+            switch(i)
+            {
+                case 0:
+                    textures[i] = Assets.layer00;
+                    break;
+                case 1:
+                    textures[i] = Assets.layer10;
+                    break;
+                case 2:
+                    textures[i] = Assets.layer20;
+                    break;
+            }
         }
 
-        ScrollRate = scrollRate;
+        texturesRegion = new TextureRegion[3];
+        for (int i = 0; i < 3; ++i)
+        {
+            switch(i)
+            {
+                case 0:
+                    texturesRegion[i] = Assets.layer00Region;
+                    break;
+                case 1:
+                    texturesRegion[i] =  Assets.layer10Region;
+                    break;
+                case 2:
+                    texturesRegion[i] =  Assets.layer20Region;
+                    break;
+            }
+        }
     }
 
-    public void Draw(SpriteBatcher spriteBatch, float cameraPosition)
+
+    public void update(float deltaTime)
     {
-        Vector2 xy = Vector2.Zero();
 
-        // Assume each segment is the same width.
-        int segmentWidth = texturesregion[0].texture.width;
+    }
 
-        // Calculate which segments to draw and how much to offset them.
-        xy.x  = cameraPosition * ScrollRate;
 
-        int leftSegment = (int)Math.floor(xy.x / segmentWidth);
-        int rightSegment = leftSegment + 1;
+    public void Draw(SpriteBatcher batcher, float camposition)
+    {
 
-        xy.x = (xy.x / segmentWidth - leftSegment) * -segmentWidth;
+        batcher.beginBatch(textures[0]);
 
-        /*spriteBatch.beginBatch(texture[leftSegment % texturesregion.length]);
+           batcher.drawSprite(ScreenManager.GetCamera().position.x, ScreenManager.GetCamera().frustumHeight / 2, 1920, 1080, texturesRegion[0]);
 
-           spriteBatch.drawSprite(xy.x, 1080 / 2, 1920, 1080, texturesregion[leftSegment % texturesregion.length]);
-           spriteBatch.drawSprite(xy.x + segmentWidth, 1080 / 2, 1920, 1080, texturesregion[rightSegment % texturesregion.length]);
+           if(camposition > 0)
+           {
+               batcher.drawSprite(ScreenManager.GetCamera().position.x + 1920, ScreenManager.GetCamera().frustumHeight / 2, 1920, 1080, texturesRegion[0]);
+           }
 
-        spriteBatch.endBatch();*/
+        batcher.endBatch();
 
-        spriteBatch.beginBatch(Assets.layer00);
+        batcher.beginBatch(textures[1]);
 
-           spriteBatch.drawSprite(1920 /2, 1080 / 2, 1920, 1080, Assets.layer00Region);
-          //spriteBatch.drawSprite(xy.x + segmentWidth, 1080 / 2, 1920, 1080, texturesregion[rightSegment % texturesregion.length]);
+           batcher.drawSprite(ScreenManager.GetCamera().position.x, ScreenManager.GetCamera().frustumHeight / 2, 1920, 1080, texturesRegion[1]);
 
-        spriteBatch.endBatch();
+           if(camposition > 0)
+           {
+               batcher.drawSprite(ScreenManager.GetCamera().position.x + 1920, ScreenManager.GetCamera().frustumHeight / 2, 1920, 1080, texturesRegion[1]);
+           }
+
+        batcher.endBatch();
+
+        batcher.beginBatch( textures[2]);
+
+            batcher.drawSprite(ScreenManager.GetCamera().position.x, ScreenManager.GetCamera().frustumHeight / 2, 1920, 1080, texturesRegion[2]);
+
+           if(camposition > 0)
+           {
+              batcher.drawSprite(ScreenManager.GetCamera().position.x + 1920, ScreenManager.GetCamera().frustumHeight / 2, 1920, 1080, texturesRegion[2]);
+           }
+
+        batcher.endBatch();
 
     }
 }
+
 

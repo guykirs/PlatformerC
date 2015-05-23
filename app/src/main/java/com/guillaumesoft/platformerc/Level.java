@@ -2,6 +2,8 @@ package com.guillaumesoft.platformerc;
 
 import android.graphics.Point;
 import android.view.Display;
+
+import com.badlogic.androidgames.framework.gl.Camera2D;
 import com.badlogic.androidgames.framework.math.Clamp;
 import com.badlogic.androidgames.framework.Disposable;
 import com.badlogic.androidgames.framework.gl.SpriteBatcher;
@@ -99,7 +101,8 @@ public class Level implements Disposable
 
     public float cameraPosition;
 
-    private Layer[] layers;
+    //private Layer[] layers;
+    private Layer layer;
 
     ////////////////////////////////////////////////////////////
     // CLASS FUNCTIONS
@@ -137,10 +140,12 @@ public class Level implements Disposable
         // GET THE SPRITE BATCH FORM THE GAME SCREEN
         this.spritebatcher = sp;
 
-        layers = new Layer[3];
-        layers[0] = new Layer(Assets.layer00Region, Assets.layer00, 0.5f);
-        layers[1] = new Layer(Assets.layer10Region, Assets.layer10, 0.5f);
-        layers[2] = new Layer(Assets.layer20Region, Assets.layer20, 0.5f);
+        layer = new Layer();
+
+        //layers = new Layer[3];
+        //layers[0] = new Layer(Assets.layer00Region, Assets.layer00, 0.5f);
+        //layers[1] = new Layer(Assets.layer10Region, Assets.layer10, 0.5f);
+        //layers[2] = new Layer(Assets.layer20Region, Assets.layer20, 0.5f);
     }
 
     //////////////////////////////////////////////////////////
@@ -1310,7 +1315,8 @@ public class Level implements Disposable
     {
 
        //for (int i = 0; i <= 2; ++i)
-            layers[0].Draw(this.spritebatcher, cameraPosition);
+           // layers[0].Draw(this.spritebatcher, cameraPosition);
+        layer.Draw(this.spritebatcher, cameraPosition);
 
         // DRAW THE TILES TO THE SCREEN
         DrawTiles();
@@ -1533,6 +1539,7 @@ public class Level implements Disposable
     ///////////////////////////////////////////////////////////////////////
     // KEEP THE PLAYER WITHIN THE CAMERA
     //////////////////////////////////////////////////////////////////////
+
     public void ScrollCamera(Display display)
     {
         final float ViewMargin = 0.35f;
@@ -1541,13 +1548,15 @@ public class Level implements Disposable
 
         // Calculate the edges of the screen.
         float marginWidth = size.x * ViewMargin;
-        float marginLeft = cameraPosition + marginWidth;
+        float marginLeft  = cameraPosition + marginWidth;
         float marginRight = cameraPosition + size.x - marginWidth;
 
         // Calculate how far to scroll when the player is near the edges of the screen.
         float cameraMovement = 0.0f;
+
         if (player.position.x < marginLeft)
             cameraMovement = player.position.x - marginLeft;
+
         else if (player.position.x > marginRight)
             cameraMovement = player.position.x - marginRight;
 
