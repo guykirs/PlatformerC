@@ -5,6 +5,8 @@ import android.view.Display;
 import com.badlogic.androidgames.framework.gl.Camera2D;
 import com.badlogic.androidgames.framework.math.Vector2;
 
+import tv.ouya.console.api.OuyaController;
+
 /**
  * Created by Guillaume on 10/6/2014.
  * class ScreenManager
@@ -38,6 +40,10 @@ public abstract class ScreenManager
     }
 
     public static Camera2D gameCamera;
+
+    /////////////////////////////////////////////////////////////////////////
+    // GET AND SET GAME CONTROLLER ID
+    public static OuyaController currentInput;
 
 
 }

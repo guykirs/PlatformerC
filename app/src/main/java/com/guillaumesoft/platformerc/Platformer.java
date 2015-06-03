@@ -86,6 +86,8 @@ public class Platformer extends GLGame
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event)
     {
+        ScreenManager.currentInput = OuyaController.getControllerByPlayer(OuyaController.getPlayerNumByDeviceId(event.getDeviceId()));
+
 
         if (keyCode == OuyaController.BUTTON_A)
         {

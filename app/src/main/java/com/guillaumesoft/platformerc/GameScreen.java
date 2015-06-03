@@ -60,14 +60,13 @@ public class GameScreen extends GLScreen
         HandleInput();
 
         // update our level, passing down the GameTime along with all of our input states
-        level.update(gameTime, gamePadState);
+        level.update(gameTime, ScreenManager.currentInput);
     }
 
     private void HandleInput()
     {
         // get all of our input states
-        gamePadState = OuyaController.getControllerByPlayer(0);
-
+        gamePadState = ScreenManager.currentInput;
         boolean continuePressed = gamePadState.getButton(OuyaController.BUTTON_O);
 
         // Perform the appropriate action to advance the game and

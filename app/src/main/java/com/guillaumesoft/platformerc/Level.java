@@ -101,8 +101,8 @@ public class Level implements Disposable
 
     public float cameraPosition;
 
-    //private Layer[] layers;
-    private Layer layer;
+    private Layer0[] layers;
+    //private Layer layer;
 
     ////////////////////////////////////////////////////////////
     // CLASS FUNCTIONS
@@ -140,12 +140,10 @@ public class Level implements Disposable
         // GET THE SPRITE BATCH FORM THE GAME SCREEN
         this.spritebatcher = sp;
 
-        layer = new Layer();
-
-        //layers = new Layer[3];
-        //layers[0] = new Layer(Assets.layer00Region, Assets.layer00, 0.5f);
-        //layers[1] = new Layer(Assets.layer10Region, Assets.layer10, 0.5f);
-        //layers[2] = new Layer(Assets.layer20Region, Assets.layer20, 0.5f);
+        layers = new Layer0[3];
+        layers[0] = new Layer0(Assets.layer00, Assets.layer00Region, 0.01f);
+        layers[1] = new Layer0(Assets.layer10, Assets.layer10Region, 0.01f);
+        layers[2] = new Layer0(Assets.layer20, Assets.layer20Region, 0.01f);
     }
 
     //////////////////////////////////////////////////////////
@@ -179,11 +177,11 @@ public class Level implements Disposable
         Collections.reverse(sInfo);
 
         // INITIALIZE THE TILE ARRAY
-        tiles = new Tile[96][33];
+        tiles = new Tile[70][33];
 
         for(int y=0; y < 33; y++)
         {
-            for (int x = 0; x < 96; x++)//29
+            for (int x = 0; x < 70; x++)//29
             {
                 // to load each tile.
                 char tileType = sInfo.get(y).charAt(x);
@@ -1316,7 +1314,11 @@ public class Level implements Disposable
 
        //for (int i = 0; i <= 2; ++i)
            // layers[0].Draw(this.spritebatcher, cameraPosition);
-        layer.Draw(this.spritebatcher, cameraPosition);
+
+        for (int i = 0; i <= 2; ++i)
+            layers[i].Draw(this.spritebatcher, cameraPosition);
+
+        ///layer.Draw(this.spritebatcher, cameraPosition);
 
         // DRAW THE TILES TO THE SCREEN
         DrawTiles();
@@ -1494,7 +1496,7 @@ public class Level implements Disposable
         // For each tile position
         for(int y=0; y < 33; y++)
         {
-            for (int x = 0; x < 96; x++)//29
+            for (int x = 0; x < 70; x++)//29
             {
                 // If there is a visible tile in that position
                 TextureRegion texture = tiles[x][y].texture;
