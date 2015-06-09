@@ -101,8 +101,7 @@ public class Level implements Disposable
 
     public float cameraPosition;
 
-    private Layer0[] layers;
-    //private Layer layer;
+    private Layer[] layers;
 
     ////////////////////////////////////////////////////////////
     // CLASS FUNCTIONS
@@ -140,10 +139,10 @@ public class Level implements Disposable
         // GET THE SPRITE BATCH FORM THE GAME SCREEN
         this.spritebatcher = sp;
 
-        layers = new Layer0[3];
-        layers[0] = new Layer0(Assets.layer00, Assets.layer00Region, 0.01f);
-        layers[1] = new Layer0(Assets.layer10, Assets.layer10Region, 0.01f);
-        layers[2] = new Layer0(Assets.layer20, Assets.layer20Region, 0.01f);
+        layers = new Layer[3];
+        layers[0] = new Layer("layer0", 0.01f);
+        layers[1] = new Layer("layer1", 0.01f);
+        layers[2] = new Layer("layer2", 0.01f);
     }
 
     //////////////////////////////////////////////////////////
@@ -1306,14 +1305,20 @@ public class Level implements Disposable
         this.spritebatcher.endBatch();
     }
 
+    boolean iLoad = false;
     ////////////////////////////////////////////////////////////////////////////
     // DRAW THE GAME SCREENS
     ////////////////////////////////////////////////////////////////////////////
     public void Draw()
     {
+        if(iLoad == false)
+        {
+            layers[0] = new Layer("layer0", 0.01f);
+            layers[1] = new Layer("layer1", 0.0f);
+            layers[2] = new Layer("layer2", 0.0f);
 
-       //for (int i = 0; i <= 2; ++i)
-           // layers[0].Draw(this.spritebatcher, cameraPosition);
+            iLoad = true;
+        }
 
         for (int i = 0; i <= 2; ++i)
             layers[i].Draw(this.spritebatcher, cameraPosition);

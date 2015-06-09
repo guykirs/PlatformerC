@@ -3,6 +3,7 @@ package com.guillaumesoft.platformerc;
 import android.view.Display;
 
 import com.badlogic.androidgames.framework.gl.Camera2D;
+import com.badlogic.androidgames.framework.impl.GLGame;
 import com.badlogic.androidgames.framework.math.Vector2;
 
 import tv.ouya.console.api.OuyaController;
@@ -45,5 +46,5 @@ public abstract class ScreenManager
     // GET AND SET GAME CONTROLLER ID
     public static OuyaController currentInput;
 
-
+    public static GLGame game;
 }

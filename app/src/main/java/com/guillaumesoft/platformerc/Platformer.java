@@ -52,7 +52,7 @@ public class Platformer extends GLGame
             firstTimeCreate = false;
 
             // CREATE A STATIC CONTEXT FOR THE GAME
-            //ScreenManager.game = this;
+            ScreenManager.game = this;
 
             WindowManager wm = (WindowManager) this.getSystemService(Context.WINDOW_SERVICE);
             ScreenManager.SetDisplay(wm.getDefaultDisplay());
